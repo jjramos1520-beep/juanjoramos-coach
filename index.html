@@ -243,7 +243,7 @@
       </ul>
 
       <div class="flex items-center gap-3">
-        <a href="#" data-wa="Hola Juanjo, quiero agendar una llamada" class="hidden sm:inline-flex btn-gold rounded-full px-5 py-2.5 text-sm font-semibold items-center gap-2">
+        <a href="#" data-cal class="hidden sm:inline-flex btn-gold rounded-full px-5 py-2.5 text-sm font-semibold items-center gap-2">
           <i class="fa-regular fa-calendar"></i> Agendar llamada
         </a>
         <button id="menuBtn" class="lg:hidden w-11 h-11 rounded-2xl border border-silver/20 flex items-center justify-center text-silver" aria-label="Abrir menú">
@@ -260,8 +260,8 @@
         <a href="#evaluacion" class="block px-4 py-3 rounded-2xl text-silver hover:bg-white/5 hover:text-gold">Evaluación</a>
         <a href="#resultados" class="block px-4 py-3 rounded-2xl text-silver hover:bg-white/5 hover:text-gold">Resultados</a>
         <a href="#faq" class="block px-4 py-3 rounded-2xl text-silver hover:bg-white/5 hover:text-gold">FAQ</a>
-        <a href="#" data-wa="Hola Juanjo, quiero agendar una llamada" class="mt-3 btn-gold rounded-2xl px-5 py-3.5 font-semibold flex items-center justify-center gap-2">
-          <i class="fa-brands fa-whatsapp"></i> Agendar llamada
+        <a href="#" data-cal class="mt-3 btn-gold rounded-2xl px-5 py-3.5 font-semibold flex items-center justify-center gap-2">
+          <i class="fa-regular fa-calendar"></i> Agendar llamada
         </a>
       </div>
     </div>
@@ -884,9 +884,14 @@
             <span class="text-gold-grad">te alegrarás de haber empezado hoy.</span>
           </h2>
           <p class="mt-6 text-silver/75 max-w-xl mx-auto">Agenda una llamada gratuita de 15 minutos. Sin compromiso: vemos tu caso y te digo con sinceridad si puedo ayudarte.</p>
-          <a href="#" data-wa="Hola Juanjo, quiero empezar el programa de coaching" class="mt-10 btn-gold rounded-full px-10 sm:px-14 py-5 text-lg font-semibold inline-flex items-center gap-3">
-            <i class="fa-brands fa-whatsapp text-2xl"></i> Hablar por WhatsApp
-          </a>
+          <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a href="#" data-cal class="btn-gold rounded-full px-10 sm:px-14 py-5 text-lg font-semibold inline-flex items-center gap-3">
+              <i class="fa-regular fa-calendar text-xl"></i> Agendar llamada gratuita
+            </a>
+            <a href="#" data-wa="Hola Juanjo, quiero empezar el programa de coaching" class="btn-ghost rounded-full px-8 py-5 font-medium inline-flex items-center gap-3">
+              <i class="fa-brands fa-whatsapp text-xl"></i> Prefiero WhatsApp
+            </a>
+          </div>
           <div class="mt-8 flex flex-wrap justify-center gap-x-8 gap-y-3 text-xs text-silver-dim">
             <span><i class="fa-solid fa-shield-halved text-gold mr-2"></i>Sin permanencia</span>
             <span><i class="fa-solid fa-clock text-gold mr-2"></i>Respuesta en menos de 24 h</span>
@@ -922,6 +927,8 @@
     /* ====== CONFIGURACIÓN ====== */
     // Número de WhatsApp con prefijo de país, sin "+" ni espacios (p. ej. 34600123456).
     const WHATSAPP_NUMBER = '34695277553';
+    // Enlace de Calendly para los botones de "Agendar llamada"
+    const CALENDLY_URL = 'https://calendly.com/ramosexecutive1/nueva-reunion';
 
     // Casos de éxito: PLANTILLAS. Sustituir por resultados y testimonios reales.
     const CASES = [
@@ -936,6 +943,11 @@
 
     document.querySelectorAll('[data-wa]').forEach((a) => {
       a.href = waLink(a.dataset.wa);
+      a.target = '_blank';
+      a.rel = 'noopener';
+    });
+    document.querySelectorAll('[data-cal]').forEach((a) => {
+      a.href = CALENDLY_URL;
       a.target = '_blank';
       a.rel = 'noopener';
     });
