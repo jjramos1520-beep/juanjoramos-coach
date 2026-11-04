@@ -1,0 +1,1380 @@
+<!DOCTYPE html>
+<html lang="es">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Juanjo Ramos Coaching</title>
+  <meta name="description" content="Entrenamiento personal y coaching online de alto rendimiento. Entrenamiento, hábitos y seguimiento 100% personalizados." />
+
+  <!-- Fuentes de la marca: Inter Tight (titulares) + Inter (texto) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Inter+Tight:wght@500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind + FontAwesome por CDN -->
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/js/all.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ink: { DEFAULT: '#0B0B0C', 2: '#121214', 3: '#18181B' },
+            gold: { DEFAULT: '#C9A45C', light: '#E6C987', deep: '#9C7A3C' },
+            silver: { DEFAULT: '#C8CCD2', dim: '#8A8F98' },
+            ivory: '#F4F1EA',
+          },
+          fontFamily: {
+            display: ['"Inter Tight"', 'Inter', 'sans-serif'],
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    :root {
+      --ink: #0B0B0C;
+      --gold: #C9A45C;
+      --gold-light: #E6C987;
+      --silver: #C8CCD2;
+      --ivory: #F4F1EA;
+      color-scheme: dark;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--ink);
+      color: var(--ivory);
+      font-family: Inter, system-ui, sans-serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    /* Grano sutil sobre todo el fondo */
+    body::before {
+      content: "";
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 1;
+      opacity: .045;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+    main, header, footer { position: relative; z-index: 2; }
+
+    .text-gold-grad {
+      background: linear-gradient(100deg, #9C7A3C 0%, #E6C987 35%, #C9A45C 60%, #F4E3B5 80%, #C9A45C 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text; background-clip: text;
+      color: transparent;
+      animation: shimmer 6s linear infinite;
+    }
+    .text-silver-grad {
+      background: linear-gradient(180deg, #FFFFFF 0%, #C8CCD2 60%, #8A8F98 100%);
+      -webkit-background-clip: text; background-clip: text;
+      color: transparent;
+    }
+    @keyframes shimmer { to { background-position: 200% center; } }
+
+    /* Glows de fondo */
+    .glow { position: absolute; border-radius: 9999px; filter: blur(90px); pointer-events: none; }
+
+    /* Tarjeta con borde degradado oro/plata */
+    .card {
+      position: relative;
+      background: linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.01));
+      border: 1px solid rgba(200,204,210,.12);
+      border-radius: 1.5rem;
+      transition: transform .5s cubic-bezier(.2,.7,.2,1), border-color .5s, box-shadow .5s;
+    }
+    .card::after {
+      content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1px;
+      background: linear-gradient(140deg, rgba(201,164,92,.8), rgba(200,204,210,.15) 40%, rgba(201,164,92,0) 70%);
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor; mask-composite: exclude;
+      opacity: 0; transition: opacity .5s; pointer-events: none;
+    }
+    .card:hover { transform: translateY(-6px); box-shadow: 0 30px 60px -30px rgba(201,164,92,.35); }
+    .card:hover::after { opacity: 1; }
+
+    /* Botón dorado con brillo que recorre */
+    .btn-gold {
+      position: relative; overflow: hidden; isolation: isolate;
+      background: linear-gradient(135deg, #E6C987, #C9A45C 50%, #9C7A3C);
+      color: #0B0B0C;
+      box-shadow: 0 10px 40px -10px rgba(201,164,92,.6), inset 0 1px 0 rgba(255,255,255,.5);
+      transition: transform .3s, box-shadow .3s;
+    }
+    .btn-gold::before {
+      content: ""; position: absolute; top: 0; left: -120%; width: 60%; height: 100%; z-index: -1;
+      background: linear-gradient(110deg, transparent, rgba(255,255,255,.65), transparent);
+      transform: skewX(-20deg);
+      animation: sweep 3.6s ease-in-out infinite;
+    }
+    .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 18px 50px -10px rgba(201,164,92,.8), inset 0 1px 0 rgba(255,255,255,.6); }
+    @keyframes sweep { 0%, 60% { left: -120%; } 100% { left: 160%; } }
+
+    .btn-ghost {
+      border: 1px solid rgba(200,204,210,.25);
+      color: var(--silver);
+      transition: border-color .3s, color .3s, background .3s;
+    }
+    .btn-ghost:hover { border-color: var(--gold); color: var(--gold-light); background: rgba(201,164,92,.06); }
+
+    /* Línea fina dorada para separar secciones */
+    .hairline { height: 1px; background: linear-gradient(90deg, transparent, rgba(201,164,92,.5), rgba(200,204,210,.3), transparent); }
+
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: .6rem;
+      font-size: .72rem; letter-spacing: .28em; text-transform: uppercase; color: var(--gold);
+      font-weight: 600;
+    }
+    .eyebrow::before { content: ""; width: 28px; height: 1px; background: currentColor; }
+
+    /* Animaciones al hacer scroll */
+    .reveal { opacity: .35; transform: translateY(28px); transition: opacity 1s cubic-bezier(.2,.7,.2,1), transform 1s cubic-bezier(.2,.7,.2,1); }
+    .reveal.in { opacity: 1; transform: none; }
+    .reveal[data-delay="1"] { transition-delay: .1s; }
+    .reveal[data-delay="2"] { transition-delay: .2s; }
+    .reveal[data-delay="3"] { transition-delay: .3s; }
+    .reveal[data-delay="4"] { transition-delay: .4s; }
+
+    /* Header al hacer scroll */
+    #siteHeader.scrolled { background: rgba(11,11,12,.72); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-color: rgba(200,204,210,.1); }
+
+    /* Cuestionario */
+    .opt {
+      border: 1px solid rgba(200,204,210,.14); border-radius: 1.1rem;
+      background: rgba(255,255,255,.02);
+      transition: border-color .3s, background .3s, transform .3s;
+      cursor: pointer;
+    }
+    .opt:hover { border-color: rgba(201,164,92,.5); transform: translateY(-2px); }
+    .opt.selected { border-color: var(--gold); background: rgba(201,164,92,.08); box-shadow: 0 0 0 1px var(--gold) inset; }
+    .opt.selected .opt-icon { background: var(--gold); color: var(--ink); }
+    .step { display: none; }
+    .step.active { display: block; animation: stepIn .6s cubic-bezier(.2,.7,.2,1); }
+    @keyframes stepIn { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: none; } }
+
+    .field {
+      width: 100%; background: rgba(255,255,255,.03); border: 1px solid rgba(200,204,210,.16);
+      border-radius: .9rem; padding: .85rem 1rem; color: var(--ivory); outline: none;
+      transition: border-color .3s, box-shadow .3s;
+    }
+    .field:focus { border-color: var(--gold); box-shadow: 0 0 0 4px rgba(201,164,92,.12); }
+    select.field option { background: #121214; }
+
+    /* Anillo de progreso del resultado */
+    .ring { transform: rotate(-90deg); }
+    .ring circle { transition: stroke-dashoffset 1.4s cubic-bezier(.2,.7,.2,1); }
+
+    /* Carrusel */
+    .track { display: flex; transition: transform .8s cubic-bezier(.2,.7,.2,1); }
+    .slide { flex: 0 0 100%; padding: 0 .5rem; }
+    @media (min-width: 768px) { .slide { flex-basis: 50%; } }
+    @media (min-width: 1024px) { .slide { flex-basis: 33.3333%; } }
+    .dot { width: 8px; height: 8px; border-radius: 9999px; background: rgba(200,204,210,.25); transition: all .4s; }
+    .dot.active { width: 28px; background: var(--gold); }
+
+    /* Acordeón */
+    .faq-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .5s cubic-bezier(.2,.7,.2,1); }
+    .faq-body > div { overflow: hidden; }
+    .faq.open .faq-body { grid-template-rows: 1fr; }
+    .faq.open { border-color: rgba(201,164,92,.45); }
+    .faq .faq-icon { transition: transform .5s, background .3s, color .3s; }
+    .faq.open .faq-icon { transform: rotate(45deg); background: var(--gold); color: var(--ink); }
+
+    /* Botón flotante de WhatsApp */
+    .wa-float { animation: floaty 3.2s ease-in-out infinite; }
+    .wa-float::before, .wa-float::after {
+      content: ""; position: absolute; inset: 0; border-radius: 9999px; border: 1px solid var(--gold);
+      animation: pulse 2.6s ease-out infinite;
+    }
+    .wa-float::after { animation-delay: 1.3s; }
+    @keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+    @keyframes pulse { from { transform: scale(1); opacity: .7; } to { transform: scale(1.7); opacity: 0; } }
+
+    /* Deslizadores */
+    .rng { -webkit-appearance: none; appearance: none; width: 100%; height: 6px; border-radius: 9999px; outline: none; cursor: pointer;
+      background: linear-gradient(to right, var(--gold) var(--p, 50%), rgba(200,204,210,.15) var(--p, 50%)); }
+    .rng::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; border-radius: 9999px; background: var(--gold-light);
+      border: 4px solid var(--ink); box-shadow: 0 0 0 1px var(--gold), 0 0 18px rgba(201,164,92,.6); transition: transform .2s; }
+    .rng::-moz-range-thumb { width: 16px; height: 16px; border-radius: 9999px; background: var(--gold-light); border: 4px solid var(--ink); box-shadow: 0 0 0 1px var(--gold); }
+    .rng:active::-webkit-slider-thumb { transform: scale(1.15); }
+    .rng:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 3px var(--gold-light); }
+
+    /* Roadmap */
+    .rm-line-fill { transition: height .2s linear; }
+    .rm-node { transition: background .5s, border-color .5s, color .5s, box-shadow .5s, transform .5s; }
+    .rm-item.on .rm-node { background: var(--gold); border-color: var(--gold); color: var(--ink); box-shadow: 0 0 0 6px rgba(201,164,92,.12), 0 0 30px rgba(201,164,92,.45); transform: scale(1.05); }
+    .rm-item .rm-card { transition: border-color .5s, background .5s, opacity .5s; opacity: .55; }
+    .rm-item.on .rm-card { border-color: rgba(201,164,92,.35); background: rgba(201,164,92,.04); opacity: 1; }
+
+    /* Barras de resultados */
+    .bar { height: 10px; border-radius: 9999px; width: 0; transition: width 1.2s cubic-bezier(.2,.7,.2,1); }
+    .res-tab { transition: background .3s, color .3s, border-color .3s; }
+    .res-tab.active { background: var(--gold); color: var(--ink); border-color: var(--gold); }
+
+    /* Marquesina */
+    .marquee { display: flex; width: max-content; animation: marquee 40s linear infinite; }
+    @keyframes marquee { to { transform: translateX(-50%); } }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+
+  <!-- ============ HEADER ============ -->
+  <header id="siteHeader" class="fixed top-0 inset-x-0 z-50 border-b border-transparent transition-all duration-500">
+    <nav class="max-w-7xl mx-auto px-5 lg:px-8 h-20 flex items-center justify-between">
+      <a href="#inicio" class="flex items-center gap-3 group">
+        <span class="w-10 h-10 rounded-2xl border border-gold/50 flex items-center justify-center font-display font-bold text-gold group-hover:bg-gold group-hover:text-ink transition">JR</span>
+        <span class="leading-tight">
+          <span class="block font-display font-semibold tracking-wide text-ivory">Juanjo Ramos</span>
+          <span class="block text-[10px] tracking-[.3em] uppercase text-silver-dim">High Performance Coach</span>
+        </span>
+      </a>
+
+      <ul class="hidden lg:flex items-center gap-9 text-sm text-silver">
+        <li><a href="#metodo" class="hover:text-gold transition">Método</a></li>
+        <li><a href="#simulador" class="hover:text-gold transition">Simulador</a></li>
+        <li><a href="#evaluacion" class="hover:text-gold transition">Evaluación</a></li>
+        <li><a href="#resultados" class="hover:text-gold transition">Resultados</a></li>
+        <li><a href="#faq" class="hover:text-gold transition">FAQ</a></li>
+      </ul>
+
+      <div class="flex items-center gap-3">
+        <a href="#" data-wa="Hola Juanjo, quiero agendar una llamada" class="hidden sm:inline-flex btn-gold rounded-full px-5 py-2.5 text-sm font-semibold items-center gap-2">
+          <i class="fa-regular fa-calendar"></i> Agendar llamada
+        </a>
+        <button id="menuBtn" class="lg:hidden w-11 h-11 rounded-2xl border border-silver/20 flex items-center justify-center text-silver" aria-label="Abrir menú">
+          <i class="fa-solid fa-bars-staggered"></i>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Menú móvil -->
+    <div id="mobileMenu" class="lg:hidden hidden px-5 pb-6">
+      <div class="rounded-3xl border border-silver/10 bg-ink-2/95 backdrop-blur-xl p-5 space-y-1">
+        <a href="#metodo" class="block px-4 py-3 rounded-2xl text-silver hover:bg-white/5 hover:text-gold">Método</a>
+        <a href="#simulador" class="block px-4 py-3 rounded-2xl text-silver hover:bg-white/5 hover:text-gold">Simulador</a>
+        <a href="#evaluacion" class="block px-4 py-3 rounded-2xl text-silver hover:bg-white/5 hover:text-gold">Evaluación</a>
+        <a href="#resultados" class="block px-4 py-3 rounded-2xl text-silver hover:bg-white/5 hover:text-gold">Resultados</a>
+        <a href="#faq" class="block px-4 py-3 rounded-2xl text-silver hover:bg-white/5 hover:text-gold">FAQ</a>
+        <a href="#" data-wa="Hola Juanjo, quiero agendar una llamada" class="mt-3 btn-gold rounded-2xl px-5 py-3.5 font-semibold flex items-center justify-center gap-2">
+          <i class="fa-brands fa-whatsapp"></i> Agendar llamada
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ============ HERO ============ -->
+    <section id="inicio" class="relative min-h-[100svh] flex items-center pt-28 pb-20 overflow-hidden">
+      <div class="glow w-[520px] h-[520px] bg-gold/20 -top-40 -right-40"></div>
+      <div class="glow w-[420px] h-[420px] bg-silver/10 bottom-0 -left-40"></div>
+      <!-- Rejilla fina -->
+      <div class="absolute inset-0 opacity-[.05] pointer-events-none" style="background-image:linear-gradient(#C8CCD2 1px,transparent 1px),linear-gradient(90deg,#C8CCD2 1px,transparent 1px);background-size:72px 72px;mask-image:radial-gradient(ellipse at center,#000 30%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse at center,#000 30%,transparent 75%);"></div>
+
+      <div class="max-w-7xl mx-auto px-5 lg:px-8 grid lg:grid-cols-12 gap-14 items-center relative">
+        <div class="lg:col-span-7">
+          <div class="reveal inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/5 px-4 py-1.5 text-xs text-gold-light mb-8">
+            <span class="w-1.5 h-1.5 rounded-full bg-gold animate-pulse"></span>
+            Plazas limitadas · Coaching 1 a 1
+          </div>
+
+          <h1 class="reveal font-display font-bold tracking-tight leading-[1.02] text-[2.75rem] sm:text-6xl lg:text-7xl" data-delay="1">
+            <span class="text-silver-grad">Tu mejor físico</span><br />
+            <span class="text-silver-grad">no es suerte.</span><br />
+            <span class="text-gold-grad">Es un método.</span>
+          </h1>
+
+          <p class="reveal mt-7 text-lg text-silver/80 max-w-xl leading-relaxed" data-delay="2">
+            Entrenamiento y hábitos diseñados solo para ti. Un sistema de alto rendimiento con seguimiento real para que transformes tu cuerpo sin perder tu vida por el camino.
+          </p>
+
+          <div class="reveal mt-10 flex flex-col sm:flex-row gap-4" data-delay="3">
+            <a href="#evaluacion" class="btn-gold rounded-full px-8 py-4 font-semibold text-base flex items-center justify-center gap-3">
+              Descubre si eres candidato <i class="fa-solid fa-arrow-right"></i>
+            </a>
+            <a href="#metodo" class="btn-ghost rounded-full px-8 py-4 font-medium flex items-center justify-center gap-3">
+              <i class="fa-regular fa-circle-play"></i> Ver el método
+            </a>
+          </div>
+
+          <!-- Métricas (sustituir por datos reales) -->
+          <div class="reveal mt-14 grid grid-cols-3 gap-3 sm:gap-6 max-w-xl" data-delay="4">
+            <div class="rounded-2xl border border-silver/10 bg-white/[.02] p-4 sm:p-5">
+              <div class="font-display text-3xl sm:text-4xl font-bold text-gold-grad"><span data-count="2">2</span></div>
+              <div class="mt-1 text-[11px] sm:text-xs text-silver-dim uppercase tracking-wider">Vidas transformadas</div>
+            </div>
+            <div class="rounded-2xl border border-silver/10 bg-white/[.02] p-4 sm:p-5">
+              <div class="font-display text-3xl sm:text-4xl font-bold text-gold-grad"><span data-count="100">100</span>%</div>
+              <div class="mt-1 text-[11px] sm:text-xs text-silver-dim uppercase tracking-wider">Personalizado</div>
+            </div>
+            <div class="rounded-2xl border border-silver/10 bg-white/[.02] p-4 sm:p-5">
+              <div class="font-display text-3xl sm:text-4xl font-bold text-gold-grad"><span data-count="24">24</span>h</div>
+              <div class="mt-1 text-[11px] sm:text-xs text-silver-dim uppercase tracking-wider">Respuesta máx.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Visual del hero: panel tipo app con progreso -->
+        <div class="lg:col-span-5 reveal" data-delay="2">
+          <div class="relative mx-auto max-w-sm">
+            <div class="glow w-72 h-72 bg-gold/25 top-10 left-10"></div>
+            <div class="relative rounded-[2.5rem] border border-silver/15 bg-gradient-to-b from-ink-3 to-ink p-3 shadow-2xl shadow-black/60">
+              <div class="rounded-[2rem] border border-silver/10 bg-ink-2 overflow-hidden">
+                <div class="px-6 pt-6 pb-4 flex items-center justify-between">
+                  <div>
+                    <div class="text-[10px] uppercase tracking-[.3em] text-silver-dim">Semana 12</div>
+                    <div class="font-display font-semibold text-lg">Tu progreso</div>
+                  </div>
+                  <span class="w-10 h-10 rounded-2xl bg-gold/10 text-gold flex items-center justify-center"><i class="fa-solid fa-chart-line"></i></span>
+                </div>
+
+                <div class="px-6">
+                  <svg viewBox="0 0 300 120" class="w-full h-32">
+                    <defs>
+                      <linearGradient id="lg" x1="0" x2="0" y1="0" y2="1">
+                        <stop offset="0" stop-color="#C9A45C" stop-opacity=".45" />
+                        <stop offset="1" stop-color="#C9A45C" stop-opacity="0" />
+                      </linearGradient>
+                    </defs>
+                    <path d="M0,95 C40,90 60,85 90,72 S150,60 180,45 S240,30 300,14 L300,120 L0,120 Z" fill="url(#lg)" />
+                    <path id="heroLine" d="M0,95 C40,90 60,85 90,72 S150,60 180,45 S240,30 300,14" fill="none" stroke="#E6C987" stroke-width="2.5" stroke-linecap="round" />
+                    <circle cx="300" cy="14" r="5" fill="#E6C987" />
+                  </svg>
+                </div>
+
+                <div class="p-4 grid grid-cols-2 gap-3">
+                  <div class="rounded-2xl bg-white/[.03] border border-silver/10 p-4">
+                    <i class="fa-solid fa-dumbbell text-gold text-sm"></i>
+                    <div class="mt-3 font-display text-2xl font-bold">+18%</div>
+                    <div class="text-[11px] text-silver-dim">Fuerza</div>
+                  </div>
+                  <div class="rounded-2xl bg-white/[.03] border border-silver/10 p-4">
+                    <i class="fa-solid fa-fire-flame-curved text-gold text-sm"></i>
+                    <div class="mt-3 font-display text-2xl font-bold">−6,4%</div>
+                    <div class="text-[11px] text-silver-dim">Grasa corporal</div>
+                  </div>
+                  <div class="col-span-2 rounded-2xl bg-gradient-to-r from-gold/15 to-transparent border border-gold/25 p-4 flex items-center gap-3">
+                    <span class="w-9 h-9 rounded-xl bg-gold text-ink flex items-center justify-center"><i class="fa-solid fa-check"></i></span>
+                    <div class="text-sm">
+                      <div class="font-semibold">Ajuste semanal enviado</div>
+                      <div class="text-[11px] text-silver-dim">Plan actualizado según tu check-in</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="absolute -left-6 bottom-24 rounded-2xl border border-silver/15 bg-ink/90 backdrop-blur px-4 py-3 shadow-xl hidden sm:flex items-center gap-3 wa-float" style="animation-duration:4s">
+              <i class="fa-solid fa-bolt text-gold"></i>
+              <span class="text-xs text-silver">Rendimiento <b class="text-ivory">en alza</b></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <a href="#metodo" class="absolute bottom-6 left-1/2 -translate-x-1/2 text-silver-dim text-xs tracking-[.3em] uppercase hidden md:flex flex-col items-center gap-3 hover:text-gold transition">
+        Scroll <span class="w-px h-10 bg-gradient-to-b from-gold to-transparent"></span>
+      </a>
+    </section>
+
+    <!-- Marquesina -->
+    <div class="border-y border-silver/10 py-5 overflow-hidden bg-ink-2/60">
+      <div class="marquee gap-12 text-silver-dim font-display text-sm tracking-[.35em] uppercase">
+        <span class="flex gap-12 pr-12">
+          <span>Entrenamiento</span><span class="text-gold">✦</span><span>Fuerza</span><span class="text-gold">✦</span><span>Estilo de vida</span><span class="text-gold">✦</span><span>Seguimiento</span><span class="text-gold">✦</span><span>Disciplina</span><span class="text-gold">✦</span><span>Rendimiento</span><span class="text-gold">✦</span>
+        </span>
+        <span class="flex gap-12 pr-12" aria-hidden="true">
+          <span>Entrenamiento</span><span class="text-gold">✦</span><span>Fuerza</span><span class="text-gold">✦</span><span>Estilo de vida</span><span class="text-gold">✦</span><span>Seguimiento</span><span class="text-gold">✦</span><span>Disciplina</span><span class="text-gold">✦</span><span>Rendimiento</span><span class="text-gold">✦</span>
+        </span>
+      </div>
+    </div>
+
+    <!-- ============ MÉTODO ============ -->
+    <section id="metodo" class="relative py-24 lg:py-32">
+      <div class="max-w-7xl mx-auto px-5 lg:px-8">
+        <div class="grid lg:grid-cols-12 gap-10 items-end mb-16">
+          <div class="lg:col-span-7">
+            <span class="reveal eyebrow">El método</span>
+            <h2 class="reveal mt-5 font-display font-bold text-4xl sm:text-5xl tracking-tight leading-[1.05]" data-delay="1">
+              Tres pilares.<br /><span class="text-gold-grad">Un solo objetivo: tu mejor versión.</span>
+            </h2>
+          </div>
+          <p class="reveal lg:col-span-5 text-silver/75 leading-relaxed" data-delay="2">
+            Nada de plantillas genéricas. Cada pieza del programa se construye a partir de tu punto de partida, tu agenda y tus objetivos, y se ajusta cada semana según tus datos.
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-5">
+          <article class="card reveal p-7" data-delay="1">
+            <div class="flex items-center justify-between">
+              <span class="w-14 h-14 rounded-2xl bg-gold/10 border border-gold/25 text-gold flex items-center justify-center text-xl"><i class="fa-solid fa-dumbbell"></i></span>
+              <span class="font-display text-5xl font-bold text-white/5">01</span>
+            </div>
+            <h3 class="mt-7 font-display font-semibold text-xl">Entrenamiento personalizado</h3>
+            <p class="mt-3 text-sm text-silver/70 leading-relaxed">Programación periodizada según tu nivel, material y días disponibles. Técnica revisada por vídeo.</p>
+            <ul class="mt-6 space-y-2 text-sm text-silver">
+              <li class="flex gap-2"><i class="fa-solid fa-check text-gold mt-1 text-xs"></i>Gimnasio o casa</li>
+              <li class="flex gap-2"><i class="fa-solid fa-check text-gold mt-1 text-xs"></i>Progresión medible</li>
+            </ul>
+          </article>
+
+          <article class="card reveal p-7" data-delay="2">
+            <div class="flex items-center justify-between">
+              <span class="w-14 h-14 rounded-2xl bg-gold/10 border border-gold/25 text-gold flex items-center justify-center text-xl"><i class="fa-solid fa-moon"></i></span>
+              <span class="font-display text-5xl font-bold text-white/5">02</span>
+            </div>
+            <h3 class="mt-7 font-display font-semibold text-xl">Optimización del estilo de vida</h3>
+            <p class="mt-3 text-sm text-silver/70 leading-relaxed">Sueño, estrés, pasos y hábitos. Lo que pasa fuera del gimnasio también construye tu físico.</p>
+            <ul class="mt-6 space-y-2 text-sm text-silver">
+              <li class="flex gap-2"><i class="fa-solid fa-check text-gold mt-1 text-xs"></i>Rutinas sostenibles</li>
+              <li class="flex gap-2"><i class="fa-solid fa-check text-gold mt-1 text-xs"></i>Energía diaria</li>
+            </ul>
+          </article>
+
+          <article class="card reveal p-7" data-delay="3">
+            <div class="flex items-center justify-between">
+              <span class="w-14 h-14 rounded-2xl bg-gold/10 border border-gold/25 text-gold flex items-center justify-center text-xl"><i class="fa-solid fa-chart-simple"></i></span>
+              <span class="font-display text-5xl font-bold text-white/5">03</span>
+            </div>
+            <h3 class="mt-7 font-display font-semibold text-xl">Seguimiento y ajustes</h3>
+            <p class="mt-3 text-sm text-silver/70 leading-relaxed">Check-in semanal, contacto directo por WhatsApp y ajustes del plan en función de tus resultados.</p>
+            <ul class="mt-6 space-y-2 text-sm text-silver">
+              <li class="flex gap-2"><i class="fa-solid fa-check text-gold mt-1 text-xs"></i>Revisión semanal</li>
+              <li class="flex gap-2"><i class="fa-solid fa-check text-gold mt-1 text-xs"></i>Soporte 1 a 1</li>
+            </ul>
+          </article>
+        </div>
+
+        <!-- Proceso -->
+        <div class="mt-20 card reveal p-8 lg:p-12 !transform-none hover:!translate-y-0">
+          <div class="grid md:grid-cols-4 gap-8 relative">
+            <div class="hidden md:block absolute top-6 left-[12%] right-[12%] hairline"></div>
+            <div class="relative text-center">
+              <span class="mx-auto w-12 h-12 rounded-2xl bg-ink border border-gold/40 text-gold font-display font-bold flex items-center justify-center">1</span>
+              <h4 class="mt-5 font-display font-semibold">Llamada inicial</h4>
+              <p class="mt-2 text-sm text-silver/65">Conocemos tu punto de partida y tus objetivos.</p>
+            </div>
+            <div class="relative text-center">
+              <span class="mx-auto w-12 h-12 rounded-2xl bg-ink border border-gold/40 text-gold font-display font-bold flex items-center justify-center">2</span>
+              <h4 class="mt-5 font-display font-semibold">Diseño del plan</h4>
+              <p class="mt-2 text-sm text-silver/65">Un entrenamiento hecho a tu medida.</p>
+            </div>
+            <div class="relative text-center">
+              <span class="mx-auto w-12 h-12 rounded-2xl bg-ink border border-gold/40 text-gold font-display font-bold flex items-center justify-center">3</span>
+              <h4 class="mt-5 font-display font-semibold">Ejecución</h4>
+              <p class="mt-2 text-sm text-silver/65">Tú entrenas; yo reviso, corrijo y te acompaño.</p>
+            </div>
+            <div class="relative text-center">
+              <span class="mx-auto w-12 h-12 rounded-2xl bg-gold text-ink font-display font-bold flex items-center justify-center"><i class="fa-solid fa-trophy text-sm"></i></span>
+              <h4 class="mt-5 font-display font-semibold">Resultados</h4>
+              <p class="mt-2 text-sm text-silver/65">Cambios visibles y hábitos que se quedan.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ROADMAP 12 SEMANAS ============ -->
+    <section id="roadmap" class="relative py-24 lg:py-32 bg-ink-2/50 border-y border-silver/10 overflow-hidden">
+      <div class="glow w-[420px] h-[420px] bg-gold/10 top-1/3 -right-40"></div>
+      <div class="max-w-3xl mx-auto px-5 lg:px-8 relative">
+        <div class="text-center mb-16">
+          <span class="reveal eyebrow justify-center">Hoja de ruta</span>
+          <h2 class="reveal mt-5 font-display font-bold text-4xl sm:text-5xl tracking-tight" data-delay="1">Tus primeras <span class="text-gold-grad">12 semanas</span></h2>
+          <p class="reveal mt-4 text-silver/70 max-w-xl mx-auto" data-delay="2">Cada fase tiene un objetivo claro. Así sabes en todo momento en qué punto estás y qué viene después.</p>
+        </div>
+
+        <div id="roadmapWrap" class="relative">
+          <div class="absolute left-[23px] top-2 bottom-2 w-px bg-silver/15"></div>
+          <div id="rmFill" class="rm-line-fill absolute left-[23px] top-2 w-px bg-gradient-to-b from-gold-light via-gold to-gold-deep" style="height:0"></div>
+
+          <div class="space-y-8" id="rmItems">
+            <div class="rm-item relative flex gap-6">
+              <span class="rm-node shrink-0 relative z-10 w-12 h-12 rounded-2xl border border-silver/25 bg-ink text-silver flex items-center justify-center font-display text-xs font-bold">S1</span>
+              <div class="rm-card flex-1 min-w-0 rounded-3xl border border-silver/10 p-6">
+                <div class="text-[10px] uppercase tracking-[.3em] text-gold">Semanas 1 – 2</div>
+                <h3 class="mt-2 font-display font-semibold text-xl">Evaluación y adaptación</h3>
+                <p class="mt-2 text-sm text-silver/70 leading-relaxed">Analizo tu punto de partida, tu técnica y tu agenda. Empiezas con cargas cómodas para que el cuerpo se adapte.</p>
+              </div>
+            </div>
+            <div class="rm-item relative flex gap-6">
+              <span class="rm-node shrink-0 relative z-10 w-12 h-12 rounded-2xl border border-silver/25 bg-ink text-silver flex items-center justify-center font-display text-xs font-bold">S3</span>
+              <div class="rm-card flex-1 min-w-0 rounded-3xl border border-silver/10 p-6">
+                <div class="text-[10px] uppercase tracking-[.3em] text-gold">Semanas 3 – 5</div>
+                <h3 class="mt-2 font-display font-semibold text-xl">Base técnica y fuerza</h3>
+                <p class="mt-2 text-sm text-silver/70 leading-relaxed">Afinamos la técnica de los ejercicios principales y construimos la base de fuerza sobre la que crece todo lo demás.</p>
+              </div>
+            </div>
+            <div class="rm-item relative flex gap-6">
+              <span class="rm-node shrink-0 relative z-10 w-12 h-12 rounded-2xl border border-silver/25 bg-ink text-silver flex items-center justify-center font-display text-xs font-bold">S6</span>
+              <div class="rm-card flex-1 min-w-0 rounded-3xl border border-silver/10 p-6">
+                <div class="text-[10px] uppercase tracking-[.3em] text-gold">Semanas 6 – 8</div>
+                <h3 class="mt-2 font-display font-semibold text-xl">Progresión de cargas</h3>
+                <p class="mt-2 text-sm text-silver/70 leading-relaxed">Subimos el volumen y la intensidad semana a semana. Aquí empiezan los cambios que se ven en el espejo.</p>
+              </div>
+            </div>
+            <div class="rm-item relative flex gap-6">
+              <span class="rm-node shrink-0 relative z-10 w-12 h-12 rounded-2xl border border-silver/25 bg-ink text-silver flex items-center justify-center font-display text-xs font-bold">S9</span>
+              <div class="rm-card flex-1 min-w-0 rounded-3xl border border-silver/10 p-6">
+                <div class="text-[10px] uppercase tracking-[.3em] text-gold">Semanas 9 – 11</div>
+                <h3 class="mt-2 font-display font-semibold text-xl">Pico de rendimiento</h3>
+                <p class="mt-2 text-sm text-silver/70 leading-relaxed">El bloque más exigente. Buscamos tus mejores marcas con todo lo aprendido en las fases anteriores.</p>
+              </div>
+            </div>
+            <div class="rm-item relative flex gap-6">
+              <span class="rm-node shrink-0 relative z-10 w-12 h-12 rounded-2xl border border-silver/25 bg-ink text-silver flex items-center justify-center"><i class="fa-solid fa-trophy text-sm"></i></span>
+              <div class="rm-card flex-1 min-w-0 rounded-3xl border border-silver/10 p-6">
+                <div class="text-[10px] uppercase tracking-[.3em] text-gold">Semana 12</div>
+                <h3 class="mt-2 font-display font-semibold text-xl">Consolidación y siguiente fase</h3>
+                <p class="mt-2 text-sm text-silver/70 leading-relaxed">Medimos resultados, fijamos los hábitos que ya tienes y planificamos el siguiente bloque.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SIMULADOR DE PROGRESO ============ -->
+    <section id="simulador" class="relative py-24 lg:py-32 overflow-hidden">
+      <div class="glow w-[520px] h-[520px] bg-gold/10 -top-20 -left-40"></div>
+      <div class="max-w-6xl mx-auto px-5 lg:px-8 relative">
+        <div class="text-center mb-14">
+          <span class="reveal eyebrow justify-center">Simulador</span>
+          <h2 class="reveal mt-5 font-display font-bold text-4xl sm:text-5xl tracking-tight" data-delay="1">Mueve las barras y <span class="text-gold-grad">mira tu progreso</span></h2>
+          <p class="reveal mt-4 text-silver/70 max-w-xl mx-auto" data-delay="2">Compara cómo avanzarías entrenando por tu cuenta y con un método planificado y revisado cada semana.</p>
+        </div>
+
+        <div class="reveal grid lg:grid-cols-12 gap-6" data-delay="2">
+          <!-- Controles -->
+          <div class="lg:col-span-4 rounded-[2rem] border border-silver/10 bg-white/[.02] p-6 sm:p-8 space-y-8">
+            <div>
+              <div class="flex items-baseline justify-between">
+                <label for="simDays" class="text-xs uppercase tracking-wider text-silver-dim">Días por semana</label>
+                <span class="font-display text-2xl font-bold text-gold-light"><span id="simDaysVal">4</span></span>
+              </div>
+              <input id="simDays" type="range" min="2" max="6" step="1" value="4" class="rng mt-4" />
+            </div>
+            <div>
+              <div class="flex items-baseline justify-between">
+                <label for="simConst" class="text-xs uppercase tracking-wider text-silver-dim">Constancia</label>
+                <span class="font-display text-2xl font-bold text-gold-light"><span id="simConstVal">80</span>%</span>
+              </div>
+              <input id="simConst" type="range" min="40" max="100" step="5" value="80" class="rng mt-4" />
+            </div>
+            <div>
+              <div class="flex items-baseline justify-between">
+                <label for="simWeeks" class="text-xs uppercase tracking-wider text-silver-dim">Semanas</label>
+                <span class="font-display text-2xl font-bold text-gold-light"><span id="simWeeksVal">12</span></span>
+              </div>
+              <input id="simWeeks" type="range" min="4" max="24" step="1" value="12" class="rng mt-4" />
+            </div>
+
+            <div class="pt-6 border-t border-silver/10 grid grid-cols-2 gap-3">
+              <div class="rounded-2xl border border-gold/30 bg-gold/5 p-4">
+                <div class="text-[10px] uppercase tracking-wider text-silver-dim">Con método</div>
+                <div class="font-display text-3xl font-bold text-gold-grad" style="font-variant-numeric:tabular-nums"><span id="simA">0</span></div>
+              </div>
+              <div class="rounded-2xl border border-silver/10 bg-white/[.02] p-4">
+                <div class="text-[10px] uppercase tracking-wider text-silver-dim">Por tu cuenta</div>
+                <div class="font-display text-3xl font-bold text-silver" style="font-variant-numeric:tabular-nums"><span id="simB">0</span></div>
+              </div>
+              <div class="col-span-2 rounded-2xl bg-gradient-to-r from-gold/15 to-transparent border border-gold/25 px-4 py-3 flex items-center gap-3">
+                <i class="fa-solid fa-arrow-trend-up text-gold"></i>
+                <span class="text-sm"><b id="simDiff" class="text-gold-light">+0%</b> <span class="text-silver/80">más progreso con el método</span></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Gráfico -->
+          <div class="lg:col-span-8 rounded-[2rem] border border-silver/10 bg-gradient-to-b from-ink-3/70 to-ink-2/70 p-5 sm:p-8 min-w-0">
+            <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+              <div class="font-display font-semibold">Índice de progreso</div>
+              <div class="flex items-center gap-5 text-xs text-silver">
+                <span class="flex items-center gap-2"><span class="w-5 h-[3px] rounded-full bg-gold-light"></span>Con mi método</span>
+                <span class="flex items-center gap-2"><span class="w-5 h-0 border-t-2 border-dashed border-silver-dim"></span>Por tu cuenta</span>
+              </div>
+            </div>
+            <svg id="simChart" viewBox="0 0 640 320" class="w-full h-auto" role="img" aria-label="Gráfico de progreso estimado">
+              <defs>
+                <linearGradient id="simArea" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0" stop-color="#C9A45C" stop-opacity=".35" />
+                  <stop offset="1" stop-color="#C9A45C" stop-opacity="0" />
+                </linearGradient>
+              </defs>
+              <g id="simGrid"></g>
+              <path id="simAreaPath" fill="url(#simArea)" />
+              <path id="simPathB" fill="none" stroke="#8A8F98" stroke-width="2" stroke-dasharray="6 6" stroke-linecap="round" />
+              <path id="simPathA" fill="none" stroke="#E6C987" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+              <circle id="simDotB" r="5" fill="#8A8F98" />
+              <circle id="simDotA" r="7" fill="#E6C987" stroke="#0B0B0C" stroke-width="3" />
+            </svg>
+            <p class="mt-3 text-[11px] text-silver-dim">Estimación ilustrativa basada en principios generales de entrenamiento. No es una garantía de resultados: cada persona progresa a su ritmo.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="hairline max-w-5xl mx-auto"></div>
+
+    <!-- ============ EVALUACIÓN INTERACTIVA ============ -->
+    <section id="evaluacion" class="relative py-24 lg:py-32 overflow-hidden">
+      <div class="glow w-[600px] h-[600px] bg-gold/10 top-20 left-1/2 -translate-x-1/2"></div>
+      <div class="max-w-4xl mx-auto px-5 lg:px-8 relative">
+        <div class="text-center mb-12">
+          <span class="reveal eyebrow justify-center">Evaluación gratuita · 60 segundos</span>
+          <h2 class="reveal mt-5 font-display font-bold text-4xl sm:text-5xl tracking-tight" data-delay="1">
+            ¿Eres <span class="text-gold-grad">candidato</span> al programa?
+          </h2>
+          <p class="reveal mt-4 text-silver/70 max-w-xl mx-auto" data-delay="2">Responde a tres preguntas y recibe al momento una propuesta de entrenamiento orientativa.</p>
+        </div>
+
+        <div class="reveal rounded-[2rem] border border-silver/12 bg-gradient-to-b from-ink-3/80 to-ink-2/80 backdrop-blur-xl p-6 sm:p-10 shadow-2xl shadow-black/50" data-delay="2" style="border-color:rgba(200,204,210,.12)">
+          <!-- Barra de progreso -->
+          <div class="flex items-center justify-between text-xs text-silver-dim mb-3">
+            <span id="stepLabel">Paso 1 de 3</span>
+            <span id="stepPct">33%</span>
+          </div>
+          <div class="h-1.5 rounded-full bg-white/5 overflow-hidden mb-10">
+            <div id="progressBar" class="h-full rounded-full bg-gradient-to-r from-gold-deep via-gold to-gold-light transition-all duration-700" style="width:33%"></div>
+          </div>
+
+          <form id="quiz" novalidate>
+            <!-- Paso 1: objetivo -->
+            <div class="step active" data-step="1">
+              <h3 class="font-display text-2xl font-semibold">¿Cuál es tu objetivo principal?</h3>
+              <p class="text-sm text-silver-dim mt-1">Elige una opción.</p>
+              <div class="mt-7 grid sm:grid-cols-2 gap-4" data-group="goal">
+                <button type="button" class="opt p-5 text-left flex items-start gap-4" data-value="fat">
+                  <span class="opt-icon shrink-0 w-12 h-12 rounded-2xl bg-gold/10 text-gold flex items-center justify-center transition"><i class="fa-solid fa-fire"></i></span>
+                  <span><span class="block font-semibold">Pérdida de grasa</span><span class="block text-xs text-silver-dim mt-1">Definir y verte más atlético</span></span>
+                </button>
+                <button type="button" class="opt p-5 text-left flex items-start gap-4" data-value="muscle">
+                  <span class="opt-icon shrink-0 w-12 h-12 rounded-2xl bg-gold/10 text-gold flex items-center justify-center transition"><i class="fa-solid fa-dumbbell"></i></span>
+                  <span><span class="block font-semibold">Ganancia muscular</span><span class="block text-xs text-silver-dim mt-1">Más músculo y más fuerza</span></span>
+                </button>
+                <button type="button" class="opt p-5 text-left flex items-start gap-4" data-value="perf">
+                  <span class="opt-icon shrink-0 w-12 h-12 rounded-2xl bg-gold/10 text-gold flex items-center justify-center transition"><i class="fa-solid fa-bolt"></i></span>
+                  <span><span class="block font-semibold">Rendimiento</span><span class="block text-xs text-silver-dim mt-1">Rendir más en tu deporte</span></span>
+                </button>
+                <button type="button" class="opt p-5 text-left flex items-start gap-4" data-value="recomp">
+                  <span class="opt-icon shrink-0 w-12 h-12 rounded-2xl bg-gold/10 text-gold flex items-center justify-center transition"><i class="fa-solid fa-arrows-rotate"></i></span>
+                  <span><span class="block font-semibold">Recomposición</span><span class="block text-xs text-silver-dim mt-1">Perder grasa y ganar músculo</span></span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Paso 2: experiencia -->
+            <div class="step" data-step="2">
+              <h3 class="font-display text-2xl font-semibold">¿Cuánta experiencia entrenando tienes?</h3>
+              <p class="text-sm text-silver-dim mt-1">Sé sincero, ajustamos todo a tu nivel.</p>
+              <div class="mt-7 grid sm:grid-cols-3 gap-4" data-group="level">
+                <button type="button" class="opt p-5 text-left" data-value="1">
+                  <span class="opt-icon w-11 h-11 rounded-2xl bg-gold/10 text-gold flex items-center justify-center transition"><i class="fa-solid fa-seedling"></i></span>
+                  <span class="block font-semibold mt-4">Principiante</span><span class="block text-xs text-silver-dim mt-1">Menos de 1 año</span>
+                </button>
+                <button type="button" class="opt p-5 text-left" data-value="2">
+                  <span class="opt-icon w-11 h-11 rounded-2xl bg-gold/10 text-gold flex items-center justify-center transition"><i class="fa-solid fa-person-running"></i></span>
+                  <span class="block font-semibold mt-4">Intermedio</span><span class="block text-xs text-silver-dim mt-1">1 a 3 años</span>
+                </button>
+                <button type="button" class="opt p-5 text-left" data-value="3">
+                  <span class="opt-icon w-11 h-11 rounded-2xl bg-gold/10 text-gold flex items-center justify-center transition"><i class="fa-solid fa-crown"></i></span>
+                  <span class="block font-semibold mt-4">Avanzado</span><span class="block text-xs text-silver-dim mt-1">Más de 3 años</span>
+                </button>
+              </div>
+
+              <h3 class="font-display text-xl font-semibold mt-10">¿Cuántos días por semana puedes entrenar?</h3>
+              <div class="mt-5 grid grid-cols-4 gap-3" data-group="days">
+                <button type="button" class="opt py-4 text-center font-display text-xl font-semibold" data-value="2">2</button>
+                <button type="button" class="opt py-4 text-center font-display text-xl font-semibold" data-value="3">3</button>
+                <button type="button" class="opt py-4 text-center font-display text-xl font-semibold" data-value="4">4</button>
+                <button type="button" class="opt py-4 text-center font-display text-xl font-semibold" data-value="5">5+</button>
+              </div>
+            </div>
+
+            <!-- Paso 3: compromiso -->
+            <div class="step" data-step="3">
+              <h3 class="font-display text-2xl font-semibold">Último paso: tu compromiso</h3>
+              <p class="text-sm text-silver-dim mt-1">Del 1 al 10, ¿cuánto estás dispuesto a comprometerte durante los próximos 3 meses?</p>
+              <div class="mt-10">
+                <input id="commit" type="range" min="1" max="10" value="8" class="rng" />
+                <div class="flex justify-between text-xs text-silver-dim mt-2"><span>1 · Lo intentaré</span><span>10 · Voy a por todas</span></div>
+                <div class="mt-8 text-center">
+                  <span id="commitVal" class="font-display text-7xl font-bold text-gold-grad">8</span>
+                  <span class="text-silver-dim text-xl">/10</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Resultado -->
+            <div class="step" data-step="4">
+              <div class="grid md:grid-cols-5 gap-8 items-center">
+                <div class="md:col-span-2 flex flex-col items-center">
+                  <div class="relative w-48 h-48">
+                    <svg viewBox="0 0 120 120" class="ring w-full h-full">
+                      <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(200,204,210,.1)" stroke-width="8" />
+                      <circle id="scoreRing" cx="60" cy="60" r="52" fill="none" stroke="url(#ringGrad)" stroke-width="8" stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="326.7" />
+                      <defs>
+                        <linearGradient id="ringGrad" x1="0" x2="1">
+                          <stop offset="0" stop-color="#9C7A3C" /><stop offset="1" stop-color="#E6C987" />
+                        </linearGradient>
+                      </defs>
+                    </svg>
+                    <div class="absolute inset-0 flex flex-col items-center justify-center">
+                      <span id="scoreNum" class="font-display text-5xl font-bold">0</span>
+                      <span class="text-[10px] uppercase tracking-[.3em] text-silver-dim mt-1">Afinidad</span>
+                    </div>
+                  </div>
+                  <span id="verdict" class="mt-5 rounded-full border border-gold/40 bg-gold/10 text-gold-light text-xs px-4 py-1.5 uppercase tracking-wider"></span>
+                </div>
+
+                <div class="md:col-span-3">
+                  <h3 id="resultTitle" class="font-display text-2xl sm:text-3xl font-semibold"></h3>
+                  <p id="resultText" class="mt-3 text-silver/75 text-sm leading-relaxed"></p>
+
+                  <div class="mt-6 grid grid-cols-2 gap-3">
+                    <div class="rounded-2xl border border-gold/30 bg-gold/5 p-4 col-span-2">
+                      <div class="text-[10px] uppercase tracking-[.25em] text-silver-dim">Tipo de rutina recomendada</div>
+                      <div id="split" class="font-display text-2xl sm:text-3xl font-bold text-gold-grad mt-1"></div>
+                    </div>
+                    <div class="rounded-2xl border border-silver/10 bg-white/[.02] p-4">
+                      <div class="text-[10px] uppercase tracking-wider text-silver-dim">Sesiones / semana</div>
+                      <div id="sessions" class="font-display text-2xl font-bold mt-1"></div>
+                    </div>
+                    <div class="rounded-2xl border border-silver/10 bg-white/[.02] p-4">
+                      <div class="text-[10px] uppercase tracking-wider text-silver-dim">Primera fase</div>
+                      <div class="font-display text-2xl font-bold mt-1"><span id="phase"></span><span class="text-sm text-silver-dim"> semanas</span></div>
+                    </div>
+                    <div class="rounded-2xl border border-silver/10 bg-white/[.02] p-4 col-span-2">
+                      <div class="text-[10px] uppercase tracking-wider text-silver-dim">Enfoque</div>
+                      <div id="focus" class="text-sm text-silver mt-1 leading-relaxed"></div>
+                    </div>
+                  </div>
+                  <p class="mt-4 text-[11px] text-silver-dim">Propuesta orientativa. En el programa se ajusta semana a semana según tu progreso.</p>
+
+                  <div class="mt-7 flex flex-col sm:flex-row gap-3">
+                    <a id="resultWa" href="#" target="_blank" rel="noopener" class="btn-gold rounded-full px-7 py-3.5 font-semibold flex items-center justify-center gap-2">
+                      <i class="fa-brands fa-whatsapp text-lg"></i> Enviar mi resultado
+                    </a>
+                    <button type="button" id="restart" class="btn-ghost rounded-full px-7 py-3.5 font-medium flex items-center justify-center gap-2">
+                      <i class="fa-solid fa-rotate-left"></i> Repetir
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Navegación -->
+            <div id="quizNav" class="mt-10 pt-6 border-t border-silver/10 flex items-center justify-between">
+              <button type="button" id="prevBtn" class="btn-ghost rounded-full px-6 py-3 text-sm font-medium flex items-center gap-2 invisible">
+                <i class="fa-solid fa-arrow-left"></i> Atrás
+              </button>
+              <button type="button" id="nextBtn" class="btn-gold rounded-full px-7 py-3 text-sm font-semibold flex items-center gap-2 opacity-40 pointer-events-none">
+                Siguiente <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ RESULTADOS ============ -->
+    <!-- Las tarjetas son PLANTILLAS: sustituir por casos y testimonios reales (con permiso) antes de publicar. -->
+    <section id="resultados" class="relative py-24 lg:py-32 bg-ink-2/50 border-y border-silver/10">
+      <div class="max-w-7xl mx-auto px-5 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-14">
+          <div>
+            <span class="reveal eyebrow">Casos de éxito</span>
+            <h2 class="reveal mt-5 font-display font-bold text-4xl sm:text-5xl tracking-tight" data-delay="1">
+              Resultados <span class="text-gold-grad">reales</span>.<br class="hidden sm:block" /> Personas reales.
+            </h2>
+          </div>
+          <div class="reveal flex gap-3" data-delay="2">
+            <button id="carPrev" class="w-12 h-12 rounded-2xl btn-ghost flex items-center justify-center" aria-label="Anterior"><i class="fa-solid fa-arrow-left"></i></button>
+            <button id="carNext" class="w-12 h-12 rounded-2xl btn-gold flex items-center justify-center" aria-label="Siguiente"><i class="fa-solid fa-arrow-right"></i></button>
+          </div>
+        </div>
+
+        <!-- Gráfico de resultados por cliente (datos en RESULTS, en el script) -->
+        <div class="reveal rounded-[2rem] border border-silver/10 bg-white/[.02] p-6 sm:p-10 mb-14" data-delay="1" id="resChart">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div>
+              <div class="font-display font-semibold text-2xl" id="resTitle"></div>
+              <div class="text-sm text-silver-dim mt-1" id="resSub"></div>
+            </div>
+            <div class="flex flex-wrap gap-2" id="resTabs"></div>
+          </div>
+          <div class="mt-8 grid md:grid-cols-2 gap-x-12 gap-y-7" id="resBars"></div>
+          <div class="mt-8 flex flex-wrap items-center gap-6 text-xs text-silver">
+            <span class="flex items-center gap-2"><span class="w-5 h-2.5 rounded-full bg-silver/30"></span>Antes</span>
+            <span class="flex items-center gap-2"><span class="w-5 h-2.5 rounded-full bg-gold"></span>Ahora</span>
+          </div>
+        </div>
+
+        <div class="reveal overflow-hidden -mx-2" data-delay="2" id="carousel">
+          <div class="track" id="track"></div>
+        </div>
+        <div class="flex justify-center gap-2 mt-10" id="dots"></div>
+      </div>
+    </section>
+
+    <!-- ============ FAQ ============ -->
+    <section id="faq" class="relative py-24 lg:py-32">
+      <div class="max-w-7xl mx-auto px-5 lg:px-8 grid lg:grid-cols-12 gap-12">
+        <div class="lg:col-span-4">
+          <span class="reveal eyebrow">Preguntas frecuentes</span>
+          <h2 class="reveal mt-5 font-display font-bold text-4xl sm:text-5xl tracking-tight" data-delay="1">Resolvemos <span class="text-gold-grad">tus dudas</span>.</h2>
+          <p class="reveal mt-5 text-silver/70" data-delay="2">¿No encuentras la respuesta? Escríbeme directamente y te respondo en persona.</p>
+          <a href="#" data-wa="Hola Juanjo, tengo una duda sobre el programa" class="reveal mt-8 btn-ghost rounded-full px-6 py-3 inline-flex items-center gap-2 text-sm" data-delay="3">
+            <i class="fa-brands fa-whatsapp"></i> Preguntar por WhatsApp
+          </a>
+        </div>
+
+        <div class="lg:col-span-8 space-y-4" id="faqList">
+          <div class="faq reveal rounded-3xl border border-silver/10 bg-white/[.02] transition-colors">
+            <button class="w-full flex items-center justify-between gap-6 p-6 text-left">
+              <span class="font-display font-semibold text-lg">¿Necesito experiencia previa para empezar?</span>
+              <span class="faq-icon shrink-0 w-10 h-10 rounded-2xl border border-gold/30 text-gold flex items-center justify-center"><i class="fa-solid fa-plus"></i></span>
+            </button>
+            <div class="faq-body"><div><p class="px-6 pb-6 text-silver/70 leading-relaxed">No. El programa se adapta a tu nivel, desde personas que nunca han pisado un gimnasio hasta atletas avanzados. Empezamos donde estás tú.</p></div></div>
+          </div>
+          <div class="faq reveal rounded-3xl border border-silver/10 bg-white/[.02] transition-colors">
+            <button class="w-full flex items-center justify-between gap-6 p-6 text-left">
+              <span class="font-display font-semibold text-lg">¿Puedo entrenar en casa o necesito gimnasio?</span>
+              <span class="faq-icon shrink-0 w-10 h-10 rounded-2xl border border-gold/30 text-gold flex items-center justify-center"><i class="fa-solid fa-plus"></i></span>
+            </button>
+            <div class="faq-body"><div><p class="px-6 pb-6 text-silver/70 leading-relaxed">Las dos opciones son válidas. Diseño el entrenamiento según el material que tengas disponible, ya sea un gimnasio completo o unas mancuernas en casa.</p></div></div>
+          </div>
+          <div class="faq reveal rounded-3xl border border-silver/10 bg-white/[.02] transition-colors">
+            <button class="w-full flex items-center justify-between gap-6 p-6 text-left">
+              <span class="font-display font-semibold text-lg">¿Cómo es el seguimiento?</span>
+              <span class="faq-icon shrink-0 w-10 h-10 rounded-2xl border border-gold/30 text-gold flex items-center justify-center"><i class="fa-solid fa-plus"></i></span>
+            </button>
+            <div class="faq-body"><div><p class="px-6 pb-6 text-silver/70 leading-relaxed">Cada semana haces un check-in con tus datos, fotos y sensaciones. Lo reviso y ajusto el plan. Además, tienes contacto directo conmigo por WhatsApp para cualquier duda.</p></div></div>
+          </div>
+          <div class="faq reveal rounded-3xl border border-silver/10 bg-white/[.02] transition-colors">
+            <button class="w-full flex items-center justify-between gap-6 p-6 text-left">
+              <span class="font-display font-semibold text-lg">¿Cuándo empezaré a ver resultados?</span>
+              <span class="faq-icon shrink-0 w-10 h-10 rounded-2xl border border-gold/30 text-gold flex items-center justify-center"><i class="fa-solid fa-plus"></i></span>
+            </button>
+            <div class="faq-body"><div><p class="px-6 pb-6 text-silver/70 leading-relaxed">Depende de tu punto de partida y tu constancia, pero la mayoría nota cambios en energía y rendimiento en las primeras semanas, y cambios visibles a partir del primer o segundo mes.</p></div></div>
+          </div>
+          <div class="faq reveal rounded-3xl border border-silver/10 bg-white/[.02] transition-colors">
+            <button class="w-full flex items-center justify-between gap-6 p-6 text-left">
+              <span class="font-display font-semibold text-lg">¿Cómo empiezo?</span>
+              <span class="faq-icon shrink-0 w-10 h-10 rounded-2xl border border-gold/30 text-gold flex items-center justify-center"><i class="fa-solid fa-plus"></i></span>
+            </button>
+            <div class="faq-body"><div><p class="px-6 pb-6 text-silver/70 leading-relaxed">Escríbeme por WhatsApp, agendamos una llamada sin compromiso y vemos juntos si el programa encaja contigo.</p></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CTA FINAL ============ -->
+    <section class="relative py-20 lg:py-28 px-5 lg:px-8">
+      <div class="reveal relative max-w-6xl mx-auto rounded-[2.5rem] overflow-hidden border border-gold/25 bg-gradient-to-br from-ink-3 via-ink-2 to-ink p-10 sm:p-16 text-center">
+        <div class="glow w-[500px] h-[500px] bg-gold/20 -top-60 left-1/2 -translate-x-1/2"></div>
+        <div class="glow w-[300px] h-[300px] bg-silver/10 -bottom-40 -right-20"></div>
+        <div class="relative">
+          <span class="eyebrow justify-center">Tu momento es ahora</span>
+          <h2 class="mt-6 font-display font-bold text-4xl sm:text-6xl tracking-tight leading-[1.05]">
+            <span class="text-silver-grad">Dentro de 12 semanas</span><br />
+            <span class="text-gold-grad">te alegrarás de haber empezado hoy.</span>
+          </h2>
+          <p class="mt-6 text-silver/75 max-w-xl mx-auto">Agenda una llamada gratuita de 15 minutos. Sin compromiso: vemos tu caso y te digo con sinceridad si puedo ayudarte.</p>
+          <a href="#" data-wa="Hola Juanjo, quiero empezar el programa de coaching" class="mt-10 btn-gold rounded-full px-10 sm:px-14 py-5 text-lg font-semibold inline-flex items-center gap-3">
+            <i class="fa-brands fa-whatsapp text-2xl"></i> Hablar por WhatsApp
+          </a>
+          <div class="mt-8 flex flex-wrap justify-center gap-x-8 gap-y-3 text-xs text-silver-dim">
+            <span><i class="fa-solid fa-shield-halved text-gold mr-2"></i>Sin permanencia</span>
+            <span><i class="fa-solid fa-clock text-gold mr-2"></i>Respuesta en menos de 24 h</span>
+            <span><i class="fa-solid fa-user-check text-gold mr-2"></i>Plazas limitadas</span>
+          </div>
+          <p class="mt-6 text-sm text-silver">¿No se abre WhatsApp? Escríbeme al <span class="font-semibold text-gold-light select-all">+34 695 277 553</span></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="border-t border-silver/10 py-10">
+    <div class="max-w-7xl mx-auto px-5 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6 text-sm text-silver-dim">
+      <div class="flex items-center gap-3">
+        <span class="w-9 h-9 rounded-xl border border-gold/40 flex items-center justify-center font-display font-bold text-gold text-sm">JR</span>
+        <span>© <span id="year"></span> Juanjo Ramos · WhatsApp <span class="select-all text-silver">+34 695 277 553</span></span>
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="https://www.instagram.com/juanjoramos_coach" target="_blank" rel="noopener" class="w-10 h-10 rounded-2xl border border-silver/15 flex items-center justify-center hover:border-gold hover:text-gold transition" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="https://www.tiktok.com/@juanjoramos_coach" target="_blank" rel="noopener" class="w-10 h-10 rounded-2xl border border-silver/15 flex items-center justify-center hover:border-gold hover:text-gold transition" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+        <a href="#" data-wa="Hola Juanjo" class="w-10 h-10 rounded-2xl border border-silver/15 flex items-center justify-center hover:border-gold hover:text-gold transition" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Botón flotante de WhatsApp -->
+  <a href="#" data-wa="Hola Juanjo, vengo de tu web y quiero información del coaching" style="bottom:calc(1.25rem + env(safe-area-inset-bottom, 0px));right:calc(1.25rem + env(safe-area-inset-right, 0px))" class="wa-float fixed z-50 w-16 h-16 rounded-full btn-gold flex items-center justify-center text-3xl" aria-label="Escribir por WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+  </a>
+
+  <script>
+    /* ====== CONFIGURACIÓN ====== */
+    // Número de WhatsApp con prefijo de país, sin "+" ni espacios (p. ej. 34600123456).
+    const WHATSAPP_NUMBER = '34695277553';
+
+    // Casos de éxito: PLANTILLAS. Sustituir por resultados y testimonios reales.
+    const CASES = [
+      { name: 'Cliente A', age: 32, goal: 'Pérdida de grasa', time: '16 semanas', stat: '−11 kg', stat2: '−8% grasa', quote: 'Sustituye este texto por el testimonio real del cliente: qué ha cambiado en su cuerpo y en su día a día.' },
+      { name: 'Cliente B', age: 27, goal: 'Ganancia muscular', time: '24 semanas', stat: '+6 kg', stat2: '+25% fuerza', quote: 'Sustituye este texto por el testimonio real del cliente: qué ha cambiado en su cuerpo y en su día a día.' },
+      { name: 'Cliente C', age: 41, goal: 'Recomposición', time: '20 semanas', stat: '−9 cm', stat2: 'cintura', quote: 'Sustituye este texto por el testimonio real del cliente: qué ha cambiado en su cuerpo y en su día a día.' },
+      { name: 'Cliente D', age: 35, goal: 'Rendimiento', time: '12 semanas', stat: '−4 min', stat2: 'en 10K', quote: 'Sustituye este texto por el testimonio real del cliente: qué ha cambiado en su cuerpo y en su día a día.' },
+      { name: 'Cliente E', age: 29, goal: 'Pérdida de grasa', time: '14 semanas', stat: '−8 kg', stat2: '−6% grasa', quote: 'Sustituye este texto por el testimonio real del cliente: qué ha cambiado en su cuerpo y en su día a día.' },
+    ];
+
+    const waLink = (text) => `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
+
+    document.querySelectorAll('[data-wa]').forEach((a) => {
+      a.href = waLink(a.dataset.wa);
+      a.target = '_blank';
+      a.rel = 'noopener';
+    });
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    /* ====== Header y menú móvil ====== */
+    const header = document.getElementById('siteHeader');
+    const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 20);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuBtn.addEventListener('click', () => {
+      const open = mobileMenu.classList.toggle('hidden') === false;
+      menuBtn.innerHTML = open ? '<i class="fa-solid fa-xmark"></i>' : '<i class="fa-solid fa-bars-staggered"></i>';
+      if (open) header.classList.add('scrolled');
+    });
+    mobileMenu.querySelectorAll('a[href^="#"]').forEach((a) => a.addEventListener('click', () => {
+      mobileMenu.classList.add('hidden');
+      menuBtn.innerHTML = '<i class="fa-solid fa-bars-staggered"></i>';
+    }));
+
+    /* ====== Animaciones al hacer scroll + contadores ====== */
+    const animateCount = (el) => {
+      const target = +el.dataset.count;
+      const start = performance.now();
+      const dur = 1600;
+      const tick = (t) => {
+        const p = Math.min((t - start) / dur, 1);
+        el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3)));
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    };
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        e.target.classList.add('in');
+        e.target.querySelectorAll('[data-count]').forEach(animateCount);
+        io.unobserve(e.target);
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+
+    // Línea del gráfico del hero dibujándose
+    const heroLine = document.getElementById('heroLine');
+    const len = heroLine.getTotalLength();
+    heroLine.style.strokeDasharray = len;
+    heroLine.style.strokeDashoffset = len;
+    heroLine.style.transition = 'stroke-dashoffset 2.2s cubic-bezier(.2,.7,.2,1) .6s';
+    requestAnimationFrame(() => requestAnimationFrame(() => { heroLine.style.strokeDashoffset = 0; }));
+
+    /* ====== Cuestionario ====== */
+    const state = { step: 1, goal: null, level: null, days: null };
+    const TOTAL = 3;
+    const steps = document.querySelectorAll('.step');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const quizNav = document.getElementById('quizNav');
+
+    document.querySelectorAll('[data-group]').forEach((group) => {
+      group.querySelectorAll('.opt').forEach((opt) => {
+        opt.addEventListener('click', () => {
+          group.querySelectorAll('.opt').forEach((o) => o.classList.remove('selected'));
+          opt.classList.add('selected');
+          state[group.dataset.group] = opt.dataset.value;
+          updateNav();
+        });
+      });
+    });
+
+    const commit = document.getElementById('commit');
+    const commitVal = document.getElementById('commitVal');
+    commit.addEventListener('input', () => { commitVal.textContent = commit.value; });
+
+    const canAdvance = () => {
+      if (state.step === 1) return !!state.goal;
+      if (state.step === 2) return !!state.level && !!state.days;
+      return true;
+    };
+
+    function updateNav() {
+      const ok = canAdvance();
+      nextBtn.classList.toggle('opacity-40', !ok);
+      nextBtn.classList.toggle('pointer-events-none', !ok);
+      prevBtn.classList.toggle('invisible', state.step === 1);
+      nextBtn.innerHTML = state.step === TOTAL
+        ? 'Ver mi resultado <i class="fa-solid fa-wand-magic-sparkles"></i>'
+        : 'Siguiente <i class="fa-solid fa-arrow-right"></i>';
+    }
+
+    function showStep(n) {
+      state.step = n;
+      steps.forEach((s) => s.classList.toggle('active', +s.dataset.step === n));
+      const shown = Math.min(n, TOTAL);
+      const pct = n > TOTAL ? 100 : Math.round((shown / TOTAL) * 100);
+      document.getElementById('stepLabel').textContent = n > TOTAL ? 'Resultado' : `Paso ${shown} de ${TOTAL}`;
+      document.getElementById('stepPct').textContent = pct + '%';
+      document.getElementById('progressBar').style.width = pct + '%';
+      quizNav.classList.toggle('hidden', n > TOTAL);
+      updateNav();
+    }
+
+    nextBtn.addEventListener('click', () => {
+      if (!canAdvance()) return;
+      if (state.step === TOTAL) { computeResult(); showStep(TOTAL + 1); return; }
+      showStep(state.step + 1);
+    });
+    prevBtn.addEventListener('click', () => showStep(Math.max(1, state.step - 1)));
+
+    document.getElementById('restart').addEventListener('click', () => {
+      Object.assign(state, { goal: null, level: null, days: null });
+      document.querySelectorAll('.opt.selected').forEach((o) => o.classList.remove('selected'));
+      commit.value = 8; commitVal.textContent = 8;
+      document.getElementById('scoreRing').style.strokeDashoffset = 326.7;
+      showStep(1);
+    });
+
+    const GOALS = {
+      fat:    { label: 'pérdida de grasa',  weeks: 12, title: 'Fase de definición',     focus: 'Fuerza para conservar músculo, más volumen de pasos diarios y trabajo metabólico corto al final de las sesiones.' },
+      muscle: { label: 'ganancia muscular', weeks: 16, title: 'Fase de hipertrofia',    focus: 'Volumen progresivo por grupo muscular, rangos de 6 a 12 repeticiones y sobrecarga semana a semana.' },
+      perf:   { label: 'rendimiento',       weeks: 10, title: 'Fase de rendimiento',    focus: 'Fuerza máxima, potencia y trabajo específico de tu deporte, con cargas planificadas según tu calendario.' },
+      recomp: { label: 'recomposición',     weeks: 14, title: 'Fase de recomposición',  focus: 'Fuerza en ejercicios básicos, volumen moderado y hábitos diarios para perder grasa mientras ganas músculo.' },
+    };
+    const SPLITS = { 2: 'Full body', 3: 'Full body', 4: 'Torso / pierna', 5: 'Empuje / tirón / pierna' };
+
+    function animateTo(el, target, dur = 1400) {
+      const start = performance.now();
+      const tick = (t) => {
+        const p = Math.min((t - start) / dur, 1);
+        el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3))).toLocaleString('es-ES');
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    }
+
+    function computeResult() {
+      const g = GOALS[state.goal];
+      const days = +state.days;
+      const split = SPLITS[days];
+      // Los principiantes empiezan con una fase algo más larga para aprender la técnica
+      const phase = g.weeks + (state.level === '1' ? 2 : 0);
+
+      // Puntuación de afinidad con el programa
+      const c = +commit.value;
+      const score = Math.min(99, Math.round(38 + c * 4.6 + Math.min(+state.days, 5) * 2.2 + (+state.level) * 1.5));
+
+      const name = g.label;
+      let verdict, title, text;
+      if (score >= 80) {
+        verdict = 'Candidato ideal';
+        title = `${g.title}: estás listo.`;
+        text = `Tu compromiso y disponibilidad encajan perfectamente con el programa. Con un plan de ${name} bien estructurado y seguimiento semanal, tienes todo para conseguir un cambio serio en las próximas ${phase} semanas.`;
+      } else if (score >= 65) {
+        verdict = 'Buen candidato';
+        title = `${g.title}: buen punto de partida.`;
+        text = `Tienes una base sólida para trabajar en tu ${name}. Ajustaremos la carga a tu disponibilidad para que el plan sea sostenible y los resultados lleguen de forma constante.`;
+      } else {
+        verdict = 'Primero, hablemos';
+        title = 'Antes de empezar, encontremos tu porqué.';
+        text = `El programa funciona mejor con un compromiso alto. Si de verdad quieres conseguir tu objetivo de ${name}, hablemos 15 minutos y diseñamos un punto de partida realista para ti.`;
+      }
+
+      document.getElementById('verdict').textContent = verdict;
+      document.getElementById('resultTitle').textContent = title;
+      document.getElementById('resultText').textContent = text;
+
+      document.getElementById('split').textContent = split;
+      document.getElementById('sessions').textContent = days === 5 ? '5+' : days;
+      document.getElementById('focus').textContent = g.focus;
+      animateTo(document.getElementById('scoreNum'), score);
+      animateTo(document.getElementById('phase'), phase);
+      requestAnimationFrame(() => {
+        document.getElementById('scoreRing').style.strokeDashoffset = 326.7 * (1 - score / 100);
+      });
+
+      const levels = { 1: 'principiante', 2: 'intermedio', 3: 'avanzado' };
+      const msg = `Hola Juanjo, acabo de hacer la evaluación de tu web.\n\n` +
+        `• Objetivo: ${name}\n• Nivel: ${levels[state.level]}\n• Días/semana: ${state.days}${state.days === '5' ? '+' : ''}\n` +
+        `• Compromiso: ${c}/10\n• Afinidad: ${score}%\n• Rutina recomendada: ${split}\n\nMe gustaría agendar una llamada.`;
+      document.getElementById('resultWa').href = waLink(msg);
+    }
+
+    showStep(1);
+
+    /* ====== Carrusel de casos ====== */
+    const track = document.getElementById('track');
+    const dotsWrap = document.getElementById('dots');
+    track.innerHTML = CASES.map((c) => `
+      <div class="slide">
+        <article class="card h-full p-7 flex flex-col">
+          <div class="relative rounded-2xl overflow-hidden border border-silver/10 grid grid-cols-2 h-48">
+            <div class="bg-gradient-to-br from-ink-3 to-ink flex flex-col items-center justify-center gap-2 border-r border-silver/10">
+              <i class="fa-regular fa-image text-2xl text-silver-dim/60"></i>
+              <span class="text-[10px] uppercase tracking-[.3em] text-silver-dim">Antes</span>
+            </div>
+            <div class="bg-gradient-to-br from-gold/15 to-ink flex flex-col items-center justify-center gap-2">
+              <i class="fa-regular fa-image text-2xl text-gold/70"></i>
+              <span class="text-[10px] uppercase tracking-[.3em] text-gold">Después</span>
+            </div>
+            <span class="absolute top-3 left-1/2 -translate-x-1/2 rounded-full bg-ink/80 backdrop-blur border border-gold/30 text-gold-light text-[10px] px-3 py-1 uppercase tracking-wider">${c.time}</span>
+          </div>
+          <div class="mt-6 flex items-end justify-between">
+            <div>
+              <div class="font-display text-4xl font-bold text-gold-grad">${c.stat}</div>
+              <div class="text-xs text-silver-dim mt-1">${c.stat2}</div>
+            </div>
+            <span class="rounded-full border border-silver/15 text-silver text-[11px] px-3 py-1">${c.goal}</span>
+          </div>
+          <div class="mt-5 flex gap-1 text-gold text-xs">${'<i class="fa-solid fa-star"></i>'.repeat(5)}</div>
+          <p class="mt-3 text-sm text-silver/75 leading-relaxed flex-1">“${c.quote}”</p>
+          <div class="mt-6 pt-5 border-t border-silver/10 flex items-center gap-3">
+            <span class="w-10 h-10 rounded-2xl bg-gold/10 border border-gold/25 text-gold font-display font-bold flex items-center justify-center">${c.name.split(' ').pop()[0]}</span>
+            <div>
+              <div class="font-semibold text-sm">${c.name}</div>
+              <div class="text-xs text-silver-dim">${c.age} años</div>
+            </div>
+          </div>
+        </article>
+      </div>`).join('');
+
+    let idx = 0;
+    const perView = () => (window.innerWidth >= 1024 ? 3 : window.innerWidth >= 768 ? 2 : 1);
+    const maxIdx = () => Math.max(0, CASES.length - perView());
+
+    function renderDots() {
+      dotsWrap.innerHTML = '';
+      for (let i = 0; i <= maxIdx(); i++) {
+        const d = document.createElement('button');
+        d.className = 'dot' + (i === idx ? ' active' : '');
+        d.setAttribute('aria-label', `Ir al caso ${i + 1}`);
+        d.addEventListener('click', () => go(i));
+        dotsWrap.appendChild(d);
+      }
+    }
+    function go(i) {
+      idx = Math.max(0, Math.min(i, maxIdx()));
+      track.style.transform = `translateX(-${idx * (100 / perView())}%)`;
+      renderDots();
+    }
+    document.getElementById('carNext').addEventListener('click', () => go(idx >= maxIdx() ? 0 : idx + 1));
+    document.getElementById('carPrev').addEventListener('click', () => go(idx <= 0 ? maxIdx() : idx - 1));
+    window.addEventListener('resize', () => go(idx));
+
+    // Autoplay que se pausa al pasar el ratón
+    let auto = setInterval(() => go(idx >= maxIdx() ? 0 : idx + 1), 5500);
+    const carousel = document.getElementById('carousel');
+    carousel.addEventListener('mouseenter', () => clearInterval(auto));
+    carousel.addEventListener('mouseleave', () => { auto = setInterval(() => go(idx >= maxIdx() ? 0 : idx + 1), 5500); });
+
+    // Swipe en móvil
+    let x0 = null;
+    carousel.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; clearInterval(auto); }, { passive: true });
+    carousel.addEventListener('touchend', (e) => {
+      if (x0 === null) return;
+      const dx = e.changedTouches[0].clientX - x0;
+      if (Math.abs(dx) > 40) go(idx + (dx < 0 ? 1 : -1));
+      x0 = null;
+    });
+    go(0);
+
+    /* ====== Deslizadores: relleno dorado hasta el valor ====== */
+    const paintRange = (r) => r.style.setProperty('--p', ((r.value - r.min) / (r.max - r.min)) * 100 + '%');
+    document.querySelectorAll('.rng').forEach((r) => { paintRange(r); r.addEventListener('input', () => paintRange(r)); });
+
+    /* ====== Roadmap: la línea se rellena con el scroll ====== */
+    const rmWrap = document.getElementById('roadmapWrap');
+    const rmFill = document.getElementById('rmFill');
+    const rmItems = [...document.querySelectorAll('.rm-item')];
+    function updateRoadmap() {
+      const r = rmWrap.getBoundingClientRect();
+      const mark = window.innerHeight * 0.6;
+      const h = Math.max(0, Math.min(r.height - 16, mark - r.top));
+      rmFill.style.height = h + 'px';
+      rmItems.forEach((it) => {
+        const node = it.querySelector('.rm-node').getBoundingClientRect();
+        it.classList.toggle('on', node.top + node.height / 2 < mark);
+      });
+    }
+    window.addEventListener('scroll', updateRoadmap, { passive: true });
+    window.addEventListener('resize', updateRoadmap);
+    updateRoadmap();
+
+    /* ====== Simulador de progreso ====== */
+    const SIM = { w: 640, h: 320, l: 44, r: 20, t: 16, b: 36, n: 60 };
+    const simIn = { days: document.getElementById('simDays'), cons: document.getElementById('simConst'), weeks: document.getElementById('simWeeks') };
+    let simCur = null;
+
+    // Modelo ilustrativo: el método progresa más rápido y sin estancarse; por tu cuenta se estanca pronto
+    function simModel(days, cons, weeks) {
+      const k = Math.pow(days / 4, 0.6) * (cons / 100);
+      const a = [], b = [];
+      for (let i = 0; i <= SIM.n; i++) {
+        const t = (i / SIM.n) * weeks;
+        const vb = 46 * (1 - Math.exp(-t * 0.2)) * (cons / 100) * Math.min(1, Math.pow(days / 4, 0.4));
+        const va = 100 * (1 - Math.exp(-t * 0.11 * k)) * (0.55 + 0.45 * Math.min(k, 1.2));
+        a.push(Math.min(100, Math.max(va, vb * 1.15)));
+        b.push(vb);
+      }
+      return { a, b, weeks };
+    }
+    const sx = (i) => SIM.l + (i / SIM.n) * (SIM.w - SIM.l - SIM.r);
+    const sy = (v) => SIM.t + (1 - v / 100) * (SIM.h - SIM.t - SIM.b);
+    const toPath = (arr) => arr.map((v, i) => (i ? 'L' : 'M') + sx(i).toFixed(1) + ',' + sy(v).toFixed(1)).join('');
+
+    function drawGrid(weeks) {
+      let g = '';
+      [0, 25, 50, 75, 100].forEach((v) => {
+        g += `<line x1="${SIM.l}" x2="${SIM.w - SIM.r}" y1="${sy(v)}" y2="${sy(v)}" stroke="#C8CCD2" stroke-opacity=".08" />`;
+        g += `<text x="${SIM.l - 10}" y="${sy(v) + 4}" text-anchor="end" font-size="11" fill="#8A8F98">${v}</text>`;
+      });
+      const step = weeks > 12 ? 4 : 2;
+      for (let wk = 0; wk <= weeks; wk += step) {
+        const x = SIM.l + (wk / weeks) * (SIM.w - SIM.l - SIM.r);
+        g += `<text x="${x}" y="${SIM.h - 12}" text-anchor="middle" font-size="11" fill="#8A8F98">S${wk}</text>`;
+      }
+      document.getElementById('simGrid').innerHTML = g;
+    }
+
+    function renderSim(d) {
+      const pa = toPath(d.a);
+      document.getElementById('simPathA').setAttribute('d', pa);
+      document.getElementById('simPathB').setAttribute('d', toPath(d.b));
+      document.getElementById('simAreaPath').setAttribute('d', pa + `L${sx(SIM.n)},${sy(0)}L${sx(0)},${sy(0)}Z`);
+      const ea = d.a[SIM.n], eb = d.b[SIM.n];
+      const dotA = document.getElementById('simDotA'), dotB = document.getElementById('simDotB');
+      dotA.setAttribute('cx', sx(SIM.n)); dotA.setAttribute('cy', sy(ea));
+      dotB.setAttribute('cx', sx(SIM.n)); dotB.setAttribute('cy', sy(eb));
+      document.getElementById('simA').textContent = Math.round(ea);
+      document.getElementById('simB').textContent = Math.round(eb);
+      document.getElementById('simDiff').textContent = '+' + Math.max(0, Math.round(((ea - eb) / Math.max(eb, 1)) * 100)) + '%';
+    }
+
+    let simRaf = null;
+    function updateSim(from) {
+      const days = +simIn.days.value, cons = +simIn.cons.value, weeks = +simIn.weeks.value;
+      document.getElementById('simDaysVal').textContent = days === 6 ? '6+' : days;
+      document.getElementById('simConstVal').textContent = cons;
+      document.getElementById('simWeeksVal').textContent = weeks;
+      drawGrid(weeks);
+      const target = simModel(days, cons, weeks);
+      const start = from || simCur || target;
+      const t0 = performance.now(), dur = 650;
+      cancelAnimationFrame(simRaf);
+      const tick = (t) => {
+        const p = Math.min((t - t0) / dur, 1), e = 1 - Math.pow(1 - p, 3);
+        simCur = {
+          a: target.a.map((v, i) => start.a[i] + (v - start.a[i]) * e),
+          b: target.b.map((v, i) => start.b[i] + (v - start.b[i]) * e),
+          weeks,
+        };
+        renderSim(simCur);
+        if (p < 1) simRaf = requestAnimationFrame(tick);
+      };
+      simRaf = requestAnimationFrame(tick);
+    }
+    Object.values(simIn).forEach((r) => r.addEventListener('input', () => updateSim()));
+
+    // Estado inicial dibujado; al entrar en pantalla las curvas suben desde cero
+    const zero = { a: Array(SIM.n + 1).fill(0), b: Array(SIM.n + 1).fill(0) };
+    updateSim();
+    new IntersectionObserver((entries, obs) => {
+      if (!entries[0].isIntersecting) return;
+      updateSim(zero);
+      obs.disconnect();
+    }, { threshold: 0.3 }).observe(document.getElementById('simChart'));
+
+    /* ====== Gráfico de resultados por cliente ====== */
+    // DATOS DE EJEMPLO: sustituir por las medidas reales de cada cliente (lower: true = mejor si baja)
+    const RESULTS = [
+      { name: 'Cliente 1', goal: 'Recomposición', weeks: 16, metrics: [
+        { label: 'Sentadilla', unit: 'kg', before: 60, after: 95 },
+        { label: 'Peso muerto', unit: 'kg', before: 80, after: 125 },
+        { label: 'Cintura', unit: 'cm', before: 92, after: 84, lower: true },
+        { label: 'Entrenos por semana', unit: '', before: 1, after: 4 },
+      ] },
+      { name: 'Cliente 2', goal: 'Ganancia muscular', weeks: 20, metrics: [
+        { label: 'Press banca', unit: 'kg', before: 50, after: 75 },
+        { label: 'Dominadas', unit: 'reps', before: 2, after: 10 },
+        { label: 'Peso corporal', unit: 'kg', before: 64, after: 70 },
+        { label: 'Entrenos por semana', unit: '', before: 2, after: 4 },
+      ] },
+    ];
+
+    const resTabs = document.getElementById('resTabs');
+    const resBars = document.getElementById('resBars');
+    let resIdx = 0;
+
+    function renderResults(i, animate = true) {
+      resIdx = i;
+      const c = RESULTS[i];
+      document.getElementById('resTitle').textContent = c.name;
+      document.getElementById('resSub').textContent = `${c.goal} · ${c.weeks} semanas`;
+      resTabs.querySelectorAll('.res-tab').forEach((t, j) => t.classList.toggle('active', j === i));
+      resBars.innerHTML = c.metrics.map((m) => {
+        const max = Math.max(m.before, m.after);
+        const diff = m.after - m.before;
+        const pct = Math.round((Math.abs(diff) / m.before) * 100);
+        const sign = diff > 0 ? '+' : '−';
+        const chip = m.unit === 'cm' || m.unit === 'kg' ? `${sign}${Math.abs(diff)} ${m.unit}` : `${sign}${pct}%`;
+        return `
+          <div>
+            <div class="flex items-baseline justify-between gap-3">
+              <span class="font-medium">${m.label}</span>
+              <span class="rounded-full border border-gold/35 bg-gold/10 text-gold-light text-[11px] px-2.5 py-0.5" style="font-variant-numeric:tabular-nums">${chip}</span>
+            </div>
+            <div class="mt-3 space-y-2">
+              <div class="flex items-center gap-3"><div class="flex-1 rounded-full bg-white/[.04]"><div class="bar bg-silver/30" data-w="${(m.before / max) * 100}"></div></div><span class="w-16 text-right text-xs text-silver-dim" style="font-variant-numeric:tabular-nums">${m.before} ${m.unit}</span></div>
+              <div class="flex items-center gap-3"><div class="flex-1 rounded-full bg-white/[.04]"><div class="bar bg-gradient-to-r from-gold-deep via-gold to-gold-light" data-w="${(m.after / max) * 100}"></div></div><span class="w-16 text-right text-xs text-ivory font-semibold" style="font-variant-numeric:tabular-nums">${m.after} ${m.unit}</span></div>
+            </div>
+          </div>`;
+      }).join('');
+      const grow = () => resBars.querySelectorAll('.bar').forEach((b) => (b.style.width = b.dataset.w + '%'));
+      animate ? requestAnimationFrame(() => requestAnimationFrame(grow)) : grow();
+    }
+
+    resTabs.innerHTML = RESULTS.map((c, i) => `<button type="button" class="res-tab rounded-full border border-silver/20 text-silver text-sm px-5 py-2">${c.name}</button>`).join('');
+    resTabs.querySelectorAll('.res-tab').forEach((t, i) => t.addEventListener('click', () => renderResults(i)));
+    renderResults(0, false);
+    // Al entrar en pantalla las barras vuelven a crecer desde cero
+    new IntersectionObserver((entries, obs) => {
+      if (!entries[0].isIntersecting) return;
+      resBars.querySelectorAll('.bar').forEach((b) => (b.style.transition = 'none', b.style.width = '0'));
+      requestAnimationFrame(() => {
+        resBars.querySelectorAll('.bar').forEach((b) => (b.style.transition = ''));
+        renderResults(resIdx);
+      });
+      obs.disconnect();
+    }, { threshold: 0.3 }).observe(document.getElementById('resChart'));
+
+    /* ====== FAQ ====== */
+    document.querySelectorAll('.faq').forEach((item) => {
+      item.querySelector('button').addEventListener('click', () => {
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq.open').forEach((o) => o.classList.remove('open'));
+        if (!isOpen) item.classList.add('open');
+      });
+    });
+  </script>
+</html>
