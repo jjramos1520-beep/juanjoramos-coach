@@ -5,10 +5,10 @@
   <title>Juanjo Ramos Coaching</title>
   <meta name="description" content="Entrenamiento personal y coaching online de alto rendimiento. Entrenamiento, hábitos y seguimiento 100% personalizados." />
 
-  <!-- Fuentes de la marca: Inter Tight (titulares) + Inter (texto) -->
+  <!-- Tipografía (la misma familia que la app de control de cargas): Archivo condensada (titulares), Manrope (texto), IBM Plex Mono (datos) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Inter+Tight:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..100,500..800&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
   <!-- Tailwind + FontAwesome por CDN -->
   <script src="https://cdn.tailwindcss.com/3.4.16"></script>
@@ -25,8 +25,9 @@
             ivory: '#F4F1EA',
           },
           fontFamily: {
-            display: ['"Inter Tight"', 'Inter', 'sans-serif'],
-            sans: ['Inter', 'system-ui', 'sans-serif'],
+            display: ['Archivo', '"Arial Narrow"', 'sans-serif'],
+            sans: ['Manrope', 'system-ui', 'sans-serif'],
+            mono: ['"IBM Plex Mono"', 'ui-monospace', 'monospace'],
           },
         },
       },
@@ -46,71 +47,62 @@
     body {
       background: var(--ink);
       color: var(--ivory);
-      font-family: Inter, system-ui, sans-serif;
+      font-family: Manrope, system-ui, sans-serif;
+      font-size: 15px;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
     }
-    /* Grano sutil sobre todo el fondo */
-    body::before {
-      content: "";
-      position: fixed; inset: 0;
-      pointer-events: none; z-index: 1;
-      opacity: .045;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    }
+    /* Titulares como en la app de cargas: Archivo estrecha, 800, mayúsculas */
+    .font-display { font-stretch: 72%; font-weight: 800 !important; text-transform: uppercase; letter-spacing: -.005em; }
+    h1.font-display, h2.font-display { line-height: .92 !important; text-wrap: balance; }
+    h2.font-display { font-size: clamp(2.5rem, 6vw, 4.6rem) !important; }
+    h3.font-display, h4.font-display { font-stretch: 80%; letter-spacing: .01em; }
+    .num { font-family: "IBM Plex Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+    :focus-visible { outline: 2px solid var(--gold-light); outline-offset: 3px; }
     main, header, footer { position: relative; z-index: 2; }
 
-    .text-gold-grad {
-      background: linear-gradient(100deg, #9C7A3C 0%, #E6C987 35%, #C9A45C 60%, #F4E3B5 80%, #C9A45C 100%);
-      background-size: 200% auto;
-      -webkit-background-clip: text; background-clip: text;
-      color: transparent;
-      animation: shimmer 6s linear infinite;
-    }
-    .text-silver-grad {
-      background: linear-gradient(180deg, #FFFFFF 0%, #C8CCD2 60%, #8A8F98 100%);
-      -webkit-background-clip: text; background-clip: text;
-      color: transparent;
-    }
-    @keyframes shimmer { to { background-position: 200% center; } }
+    /* Un solo acento: oro liso */
+    .text-gold-grad { color: var(--gold); }
+    .text-silver-grad { color: var(--ivory); }
+    .glow { display: none; }
 
-    /* Glows de fondo */
-    .glow { position: absolute; border-radius: 9999px; filter: blur(90px); pointer-events: none; }
-
-    /* Tarjeta con borde degradado oro/plata */
-    .card {
+    /* Paneles: superficie un punto más clara que el fondo, radio único de 18 px (como la app) */
+    .card, .panel {
       position: relative;
-      background: linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.01));
-      border: 1px solid rgba(200,204,210,.12);
-      border-radius: 1.5rem;
-      transition: transform .5s cubic-bezier(.2,.7,.2,1), border-color .5s, box-shadow .5s;
+      background: #141416;
+      border: 1px solid #232327;
+      border-radius: 18px;
+      box-shadow: 0 1px 2px rgb(0 0 0 / .35), 0 14px 34px -14px rgb(0 0 0 / .6);
     }
-    .card::after {
-      content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1px;
-      background: linear-gradient(140deg, rgba(201,164,92,.8), rgba(200,204,210,.15) 40%, rgba(201,164,92,0) 70%);
-      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-      -webkit-mask-composite: xor; mask-composite: exclude;
-      opacity: 0; transition: opacity .5s; pointer-events: none;
-    }
-    .card:hover { transform: translateY(-6px); box-shadow: 0 30px 60px -30px rgba(201,164,92,.35); }
-    .card:hover::after { opacity: 1; }
+    .rounded-3xl, .rounded-\[2rem\], .rounded-\[2\.5rem\] { border-radius: 18px !important; }
+    /* Cifra grande tipo KPI de la app */
+    .kpi-v { font-family: Archivo, sans-serif; font-stretch: 68%; font-weight: 800; line-height: 1; font-variant-numeric: tabular-nums; }
+    .kpi-l { display: flex; align-items: center; gap: 8px; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; font-weight: 700; color: #8A8F98; }
+    .kpi-l::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--gold); }
 
-    /* Botón dorado con brillo que recorre */
+    /* Botón dorado liso */
     .btn-gold {
-      position: relative; overflow: hidden; isolation: isolate;
-      background: linear-gradient(135deg, #E6C987, #C9A45C 50%, #9C7A3C);
+      position: relative;
+      background: var(--gold);
       color: #0B0B0C;
-      box-shadow: 0 10px 40px -10px rgba(201,164,92,.6), inset 0 1px 0 rgba(255,255,255,.5);
-      transition: transform .3s, box-shadow .3s;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.35);
+      transition: background .3s, transform .3s;
     }
-    .btn-gold::before {
-      content: ""; position: absolute; top: 0; left: -120%; width: 60%; height: 100%; z-index: -1;
-      background: linear-gradient(110deg, transparent, rgba(255,255,255,.65), transparent);
-      transform: skewX(-20deg);
-      animation: sweep 3.6s ease-in-out infinite;
-    }
-    .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 18px 50px -10px rgba(201,164,92,.8), inset 0 1px 0 rgba(255,255,255,.6); }
-    @keyframes sweep { 0%, 60% { left: -120%; } 100% { left: 160%; } }
+    .btn-gold:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+    /* Hoja de entrenamiento del hero: las series se marcan una a una al cargar (único momento animado) */
+    .sheet-row { display: grid; grid-template-columns: 1fr auto auto 28px; gap: 14px; align-items: center; padding: 11px 0; border-top: 1px solid #232327; }
+    .tick { width: 22px; height: 22px; border-radius: 7px; border: 1.5px solid #3A3A40; display: grid; place-items: center; font-size: 11px; color: transparent; }
+    .sheet.go .tick.done { animation: tick .35s ease-out forwards; }
+    .sheet.go .sheet-row:nth-of-type(1) .tick { animation-delay: .5s; }
+    .sheet.go .sheet-row:nth-of-type(2) .tick { animation-delay: .8s; }
+    .sheet.go .sheet-row:nth-of-type(3) .tick { animation-delay: 1.1s; }
+    .sheet.go .sheet-row:nth-of-type(4) .tick { animation-delay: 1.4s; }
+    @keyframes tick { to { background: var(--gold); border-color: var(--gold); color: #0B0B0C; } }
+    /* Navegación en cápsula, como la app */
+    .tabs { display: flex; gap: 2px; padding: 4px; border-radius: 999px; background: rgb(255 255 255 / .05); border: 1px solid rgb(255 255 255 / .08); }
+    .tabs a { padding: 7px 15px; border-radius: 999px; font-weight: 600; font-size: 14px; color: #A3A7AE; transition: background .15s, color .15s; }
+    .tabs a:hover { color: #fff; background: rgb(255 255 255 / .07); }
 
     .btn-ghost {
       border: 1px solid rgba(200,204,210,.25);
@@ -123,19 +115,13 @@
     .hairline { height: 1px; background: linear-gradient(90deg, transparent, rgba(201,164,92,.5), rgba(200,204,210,.3), transparent); }
 
     .eyebrow {
-      display: inline-flex; align-items: center; gap: .6rem;
-      font-size: .72rem; letter-spacing: .28em; text-transform: uppercase; color: var(--gold);
-      font-weight: 600;
+      display: inline-flex; align-items: center; gap: .5rem;
+      font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--gold);
+      font-weight: 700;
     }
-    .eyebrow::before { content: ""; width: 28px; height: 1px; background: currentColor; }
-
-    /* Animaciones al hacer scroll */
-    .reveal { opacity: .35; transform: translateY(28px); transition: opacity 1s cubic-bezier(.2,.7,.2,1), transform 1s cubic-bezier(.2,.7,.2,1); }
-    .reveal.in { opacity: 1; transform: none; }
-    .reveal[data-delay="1"] { transition-delay: .1s; }
-    .reveal[data-delay="2"] { transition-delay: .2s; }
-    .reveal[data-delay="3"] { transition-delay: .3s; }
-    .reveal[data-delay="4"] { transition-delay: .4s; }
+    .hairline { background: #232327; }
+    /* Sin entradas al hacer scroll: el contenido está ahí desde el principio */
+    .reveal { opacity: 1; }
 
     /* Header al hacer scroll */
     #siteHeader.scrolled { background: rgba(11,11,12,.72); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-color: rgba(200,204,210,.1); }
@@ -227,14 +213,15 @@
   <header id="siteHeader" class="fixed top-0 inset-x-0 z-50 border-b border-transparent transition-all duration-500">
     <nav class="max-w-7xl mx-auto px-5 lg:px-8 h-20 flex items-center justify-between">
       <a href="#inicio" class="flex items-center gap-3 group">
-        <span class="w-10 h-10 rounded-2xl border border-gold/50 flex items-center justify-center font-display font-bold text-gold group-hover:bg-gold group-hover:text-ink transition">JR</span>
+        <span class="w-10 h-10 rounded-xl bg-gold text-ink flex items-center justify-center font-display text-[17px]" style="box-shadow:inset 0 1px 0 rgb(255 255 255 / .35)">JR</span>
         <span class="leading-tight">
-          <span class="block font-display font-semibold tracking-wide text-ivory">Juanjo Ramos</span>
-          <span class="block text-[10px] tracking-[.3em] uppercase text-silver-dim">High Performance Coach</span>
+          <span class="block font-display text-[21px] tracking-[.04em] text-ivory">Juanjo Ramos</span>
+          <span class="block text-xs text-silver-dim">Entrenador personal online</span>
         </span>
       </a>
 
-      <ul class="hidden lg:flex items-center gap-9 text-sm text-silver">
+      <ul class="tabs hidden lg:flex">
+        <li><a href="#sobre" class="hover:text-gold transition">Sobre mí</a></li>
         <li><a href="#metodo" class="hover:text-gold transition">Método</a></li>
         <li><a href="#simulador" class="hover:text-gold transition">Simulador</a></li>
         <li><a href="#evaluacion" class="hover:text-gold transition">Evaluación</a></li>
@@ -255,6 +242,7 @@
     <!-- Menú móvil -->
     <div id="mobileMenu" class="lg:hidden hidden px-5 pb-6">
       <div class="rounded-3xl border border-silver/10 bg-ink-2/95 backdrop-blur-xl p-5 space-y-1">
+        <a href="#sobre" class="block px-4 py-3 rounded-2xl text-silver hover:bg-white/5 hover:text-gold">Sobre mí</a>
         <a href="#metodo" class="block px-4 py-3 rounded-2xl text-silver hover:bg-white/5 hover:text-gold">Método</a>
         <a href="#simulador" class="block px-4 py-3 rounded-2xl text-silver hover:bg-white/5 hover:text-gold">Simulador</a>
         <a href="#evaluacion" class="block px-4 py-3 rounded-2xl text-silver hover:bg-white/5 hover:text-gold">Evaluación</a>
@@ -272,17 +260,12 @@
     <section id="inicio" class="relative min-h-[100svh] flex items-center pt-28 pb-20 overflow-hidden">
       <div class="glow w-[520px] h-[520px] bg-gold/20 -top-40 -right-40"></div>
       <div class="glow w-[420px] h-[420px] bg-silver/10 bottom-0 -left-40"></div>
-      <!-- Rejilla fina -->
-      <div class="absolute inset-0 opacity-[.05] pointer-events-none" style="background-image:linear-gradient(#C8CCD2 1px,transparent 1px),linear-gradient(90deg,#C8CCD2 1px,transparent 1px);background-size:72px 72px;mask-image:radial-gradient(ellipse at center,#000 30%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse at center,#000 30%,transparent 75%);"></div>
 
       <div class="max-w-7xl mx-auto px-5 lg:px-8 grid lg:grid-cols-12 gap-14 items-center relative">
         <div class="lg:col-span-7">
-          <div class="reveal inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/5 px-4 py-1.5 text-xs text-gold-light mb-8">
-            <span class="w-1.5 h-1.5 rounded-full bg-gold animate-pulse"></span>
-            Plazas limitadas · Coaching 1 a 1
-          </div>
+          <div class="eyebrow mb-6">Coaching 1 a 1, con plazas limitadas</div>
 
-          <h1 class="reveal font-display font-bold tracking-tight leading-[1.02] text-[2.75rem] sm:text-6xl lg:text-7xl" data-delay="1">
+          <h1 class="reveal font-display text-[3.6rem] sm:text-[5.5rem] lg:text-[7.2rem]" data-delay="1">
             <span class="text-silver-grad">Tu mejor físico</span><br />
             <span class="text-silver-grad">no es suerte.</span><br />
             <span class="text-gold-grad">Es un método.</span>
@@ -293,104 +276,89 @@
           </p>
 
           <div class="reveal mt-10 flex flex-col sm:flex-row gap-4" data-delay="3">
-            <a href="#evaluacion" class="btn-gold rounded-full px-8 py-4 font-semibold text-base flex items-center justify-center gap-3">
-              Descubre si eres candidato <i class="fa-solid fa-arrow-right"></i>
+            <a href="#evaluacion" class="btn-gold rounded-xl px-7 py-4 font-bold text-base flex items-center justify-center gap-3">
+              Haz la evaluación gratuita
             </a>
-            <a href="#metodo" class="btn-ghost rounded-full px-8 py-4 font-medium flex items-center justify-center gap-3">
-              <i class="fa-regular fa-circle-play"></i> Ver el método
+            <a href="#metodo" class="btn-ghost rounded-xl px-7 py-4 font-semibold flex items-center justify-center gap-3">
+              Ver cómo trabajo
             </a>
           </div>
 
           <!-- Métricas (sustituir por datos reales) -->
-          <div class="reveal mt-14 grid grid-cols-3 gap-3 sm:gap-6 max-w-xl" data-delay="4">
-            <div class="rounded-2xl border border-silver/10 bg-white/[.02] p-4 sm:p-5">
-              <div class="font-display text-3xl sm:text-4xl font-bold text-gold-grad"><span data-count="2">2</span></div>
-              <div class="mt-1 text-[11px] sm:text-xs text-silver-dim uppercase tracking-wider">Vidas transformadas</div>
+          <div class="reveal mt-12 grid grid-cols-3 gap-3 max-w-xl" data-delay="4">
+            <div class="panel p-4">
+              <div class="kpi-l">Clientes</div>
+              <div class="kpi-v text-5xl mt-2"><span data-count="2">2</span></div>
             </div>
-            <div class="rounded-2xl border border-silver/10 bg-white/[.02] p-4 sm:p-5">
-              <div class="font-display text-3xl sm:text-4xl font-bold text-gold-grad"><span data-count="100">100</span>%</div>
-              <div class="mt-1 text-[11px] sm:text-xs text-silver-dim uppercase tracking-wider">Personalizado</div>
+            <div class="panel p-4">
+              <div class="kpi-l">Plantillas</div>
+              <div class="kpi-v text-5xl mt-2">0</div>
             </div>
-            <div class="rounded-2xl border border-silver/10 bg-white/[.02] p-4 sm:p-5">
-              <div class="font-display text-3xl sm:text-4xl font-bold text-gold-grad"><span data-count="24">24</span>h</div>
-              <div class="mt-1 text-[11px] sm:text-xs text-silver-dim uppercase tracking-wider">Respuesta máx.</div>
+            <div class="panel p-4">
+              <div class="kpi-l">Respuesta</div>
+              <div class="kpi-v text-5xl mt-2">&lt;<span data-count="24">24</span><span class="text-2xl text-silver-dim">H</span></div>
             </div>
           </div>
         </div>
 
-        <!-- Visual del hero: panel tipo app con progreso -->
+        <!-- Visual del hero: una sesión real tal y como la recibe el cliente -->
         <div class="lg:col-span-5 reveal" data-delay="2">
-          <div class="relative mx-auto max-w-sm">
-            <div class="glow w-72 h-72 bg-gold/25 top-10 left-10"></div>
-            <div class="relative rounded-[2.5rem] border border-silver/15 bg-gradient-to-b from-ink-3 to-ink p-3 shadow-2xl shadow-black/60">
-              <div class="rounded-[2rem] border border-silver/10 bg-ink-2 overflow-hidden">
-                <div class="px-6 pt-6 pb-4 flex items-center justify-between">
-                  <div>
-                    <div class="text-[10px] uppercase tracking-[.3em] text-silver-dim">Semana 12</div>
-                    <div class="font-display font-semibold text-lg">Tu progreso</div>
-                  </div>
-                  <span class="w-10 h-10 rounded-2xl bg-gold/10 text-gold flex items-center justify-center"><i class="fa-solid fa-chart-line"></i></span>
-                </div>
-
-                <div class="px-6">
-                  <svg viewBox="0 0 300 120" class="w-full h-32">
-                    <defs>
-                      <linearGradient id="lg" x1="0" x2="0" y1="0" y2="1">
-                        <stop offset="0" stop-color="#C9A45C" stop-opacity=".45" />
-                        <stop offset="1" stop-color="#C9A45C" stop-opacity="0" />
-                      </linearGradient>
-                    </defs>
-                    <path d="M0,95 C40,90 60,85 90,72 S150,60 180,45 S240,30 300,14 L300,120 L0,120 Z" fill="url(#lg)" />
-                    <path id="heroLine" d="M0,95 C40,90 60,85 90,72 S150,60 180,45 S240,30 300,14" fill="none" stroke="#E6C987" stroke-width="2.5" stroke-linecap="round" />
-                    <circle cx="300" cy="14" r="5" fill="#E6C987" />
-                  </svg>
-                </div>
-
-                <div class="p-4 grid grid-cols-2 gap-3">
-                  <div class="rounded-2xl bg-white/[.03] border border-silver/10 p-4">
-                    <i class="fa-solid fa-dumbbell text-gold text-sm"></i>
-                    <div class="mt-3 font-display text-2xl font-bold">+18%</div>
-                    <div class="text-[11px] text-silver-dim">Fuerza</div>
-                  </div>
-                  <div class="rounded-2xl bg-white/[.03] border border-silver/10 p-4">
-                    <i class="fa-solid fa-fire-flame-curved text-gold text-sm"></i>
-                    <div class="mt-3 font-display text-2xl font-bold">−6,4%</div>
-                    <div class="text-[11px] text-silver-dim">Grasa corporal</div>
-                  </div>
-                  <div class="col-span-2 rounded-2xl bg-gradient-to-r from-gold/15 to-transparent border border-gold/25 p-4 flex items-center gap-3">
-                    <span class="w-9 h-9 rounded-xl bg-gold text-ink flex items-center justify-center"><i class="fa-solid fa-check"></i></span>
-                    <div class="text-sm">
-                      <div class="font-semibold">Ajuste semanal enviado</div>
-                      <div class="text-[11px] text-silver-dim">Plan actualizado según tu check-in</div>
-                    </div>
-                  </div>
-                </div>
+          <div class="sheet panel p-5 sm:p-6 max-w-md mx-auto">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <div class="text-xs text-silver-dim">Semana 7, día 2</div>
+                <div class="font-display text-3xl mt-1">Torso, fuerza</div>
               </div>
+              <span class="rounded-full bg-gold/15 text-gold-light text-xs font-bold px-3 py-1 whitespace-nowrap">4 de 5 hechos</span>
             </div>
-            <div class="absolute -left-6 bottom-24 rounded-2xl border border-silver/15 bg-ink/90 backdrop-blur px-4 py-3 shadow-xl hidden sm:flex items-center gap-3 wa-float" style="animation-duration:4s">
-              <i class="fa-solid fa-bolt text-gold"></i>
-              <span class="text-xs text-silver">Rendimiento <b class="text-ivory">en alza</b></span>
+            <div class="mt-4 text-[11px] uppercase tracking-[.1em] font-bold text-silver-dim grid gap-3.5" style="grid-template-columns:1fr auto auto 28px">
+              <span>Ejercicio</span><span>Series</span><span class="text-right">Carga</span><span></span>
+            </div>
+            <div class="mt-1 text-sm">
+              <div class="sheet-row"><span class="font-semibold">Press banca</span><span class="num text-silver">4×6</span><span class="num text-right">62,5 kg</span><span class="tick done">✓</span></div>
+              <div class="sheet-row"><span class="font-semibold">Remo con barra</span><span class="num text-silver">4×8</span><span class="num text-right">55 kg</span><span class="tick done">✓</span></div>
+              <div class="sheet-row"><span class="font-semibold">Press militar</span><span class="num text-silver">3×8</span><span class="num text-right">35 kg</span><span class="tick done">✓</span></div>
+              <div class="sheet-row"><span class="font-semibold">Dominadas</span><span class="num text-silver">3×6</span><span class="num text-right">+5 kg</span><span class="tick done">✓</span></div>
+              <div class="sheet-row"><span class="font-semibold text-silver/70">Face pull</span><span class="num text-silver-dim">3×15</span><span class="num text-right text-silver-dim">15 kg</span><span class="tick"></span></div>
+            </div>
+            <div class="mt-4 rounded-xl bg-white/[.04] p-4 flex gap-3">
+              <span class="shrink-0 w-8 h-8 rounded-lg bg-gold text-ink flex items-center justify-center font-display text-sm">J</span>
+              <p class="text-[13px] leading-relaxed text-silver/90"><b class="text-ivory">Nota de Juanjo:</b> si las 6 de banca salen limpias, el lunes subimos a 65 kg.</p>
+            </div>
+            <div class="mt-4 pt-4 border-t border-[#232327]">
+              <div class="flex justify-between text-xs"><span class="text-silver-dim">Press banca, últimas 8 semanas</span><span class="num text-gold-light">50 → 62,5 kg</span></div>
+              <svg viewBox="0 0 300 60" class="w-full h-12 mt-2" aria-hidden="true">
+                <path id="heroLine" d="M0,54 L43,50 L86,47 L129,40 L171,36 L214,26 L257,18 L300,8" fill="none" stroke="#C9A45C" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
+                <circle cx="300" cy="8" r="4" fill="#C9A45C" />
+              </svg>
             </div>
           </div>
         </div>
       </div>
-
-      <a href="#metodo" class="absolute bottom-6 left-1/2 -translate-x-1/2 text-silver-dim text-xs tracking-[.3em] uppercase hidden md:flex flex-col items-center gap-3 hover:text-gold transition">
-        Scroll <span class="w-px h-10 bg-gradient-to-b from-gold to-transparent"></span>
-      </a>
     </section>
 
-    <!-- Marquesina -->
-    <div class="border-y border-silver/10 py-5 overflow-hidden bg-ink-2/60">
-      <div class="marquee gap-12 text-silver-dim font-display text-sm tracking-[.35em] uppercase">
-        <span class="flex gap-12 pr-12">
-          <span>Entrenamiento</span><span class="text-gold">✦</span><span>Fuerza</span><span class="text-gold">✦</span><span>Estilo de vida</span><span class="text-gold">✦</span><span>Seguimiento</span><span class="text-gold">✦</span><span>Disciplina</span><span class="text-gold">✦</span><span>Rendimiento</span><span class="text-gold">✦</span>
-        </span>
-        <span class="flex gap-12 pr-12" aria-hidden="true">
-          <span>Entrenamiento</span><span class="text-gold">✦</span><span>Fuerza</span><span class="text-gold">✦</span><span>Estilo de vida</span><span class="text-gold">✦</span><span>Seguimiento</span><span class="text-gold">✦</span><span>Disciplina</span><span class="text-gold">✦</span><span>Rendimiento</span><span class="text-gold">✦</span>
-        </span>
+
+    <!-- ============ QUIÉN TE ENTRENA ============ -->
+    <section id="sobre" class="relative py-24 lg:py-36 overflow-hidden">
+      <div aria-hidden="true" class="absolute inset-x-0 top-1/2 -translate-y-1/2 text-center font-display leading-none text-[30vw] text-transparent select-none pointer-events-none" style="-webkit-text-stroke:1px rgb(200 204 210 / .09)">Juanjo</div>
+      <div class="max-w-4xl mx-auto px-5 lg:px-8 relative">
+        <span class="reveal eyebrow">Quién te entrena</span>
+        <p class="reveal mt-7 font-display text-[2.2rem] sm:text-5xl lg:text-6xl leading-[1.08] text-ivory" data-delay="1">
+          Soy Juanjo. No te mando un PDF y desaparezco: <span class="text-gold-grad">te entreno, te reviso y te contesto yo.</span>
+        </p>
+        <div class="reveal mt-12 grid sm:grid-cols-3 gap-8 text-[15px] leading-relaxed text-silver/75" data-delay="2">
+          <p><span class="block text-ivory font-medium mb-1">Tu plan, no una plantilla</span>Lo diseño a partir de tu agenda, tu material y tu punto de partida.</p>
+          <p><span class="block text-ivory font-medium mb-1">Te miro la técnica</span>Me mandas vídeos de tus series y te corrijo lo que haga falta.</p>
+          <p><span class="block text-ivory font-medium mb-1">Hablas conmigo</span>Por WhatsApp, sin intermediarios. Respuesta en menos de 24 h.</p>
+        </div>
+        <div class="reveal mt-12 flex flex-wrap items-center gap-x-8 gap-y-3 text-sm" data-delay="3">
+          <a href="https://www.instagram.com/juanjoramos_coach" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-silver hover:text-gold-light transition"><i class="fa-brands fa-instagram"></i> Mis Reels en @juanjoramos_coach</a>
+          <a href="https://www.tiktok.com/@juanjoramos_coach" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-silver hover:text-gold-light transition"><i class="fa-brands fa-tiktok"></i> TikTok</a>
+        </div>
       </div>
-    </div>
+    </section>
+
+    <div class="hairline max-w-5xl mx-auto"></div>
 
     <!-- ============ MÉTODO ============ -->
     <section id="metodo" class="relative py-24 lg:py-32">
@@ -999,7 +967,8 @@
     const len = heroLine.getTotalLength();
     heroLine.style.strokeDasharray = len;
     heroLine.style.strokeDashoffset = len;
-    heroLine.style.transition = 'stroke-dashoffset 2.2s cubic-bezier(.2,.7,.2,1) .6s';
+    heroLine.style.transition = 'stroke-dashoffset 1.6s cubic-bezier(.2,.7,.2,1) 1.6s';
+    document.querySelector('.sheet').classList.add('go');
     requestAnimationFrame(() => requestAnimationFrame(() => { heroLine.style.strokeDashoffset = 0; }));
 
     /* ====== Cuestionario ====== */
