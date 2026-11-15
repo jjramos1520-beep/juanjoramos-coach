@@ -152,7 +152,7 @@ function canvasTexture(w, h, draw) {
 
 function buildScene(renderer) {
   const DPR_MAX = Math.min(devicePixelRatio, small ? 1.1 : 1.35), DPR_MIN = small ? 0.6 : 0.7;
-  let dpr = DPR_MAX;
+  let dpr = Math.min(DPR_MAX, 1);
   const DPR = DPR_MAX; // tamaño de partículas calculado para la resolución máxima
   renderer.setPixelRatio(dpr);
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -212,13 +212,13 @@ function buildScene(renderer) {
   });
   const puffs = [puff(7), puff(91), puff(433)];
   const clouds = new THREE.Group();
-  const nClouds = small ? 36 : 110;
+  const nClouds = small ? 36 : 56;
   for (let i = 0; i < nClouds; i++) {
     const m = new THREE.SpriteMaterial({ map: puffs[i % 3], color: new THREE.Color().setHSL(0.62, 0.55, 0.26 + Math.random() * 0.16), transparent: true, opacity: 0.32 + Math.random() * 0.3, depthWrite: false, rotation: Math.random() * 6.28 });
     const sp = new THREE.Sprite(m);
     const a = Math.random() * Math.PI * 2, r = 25 + Math.pow(Math.random(), 0.7) * 520;
     sp.position.set(Math.cos(a) * r, 40 + Math.random() * 18, Math.sin(a) * r - 120);
-    const s = 110 + Math.random() * 140; sp.scale.set(s, s * 0.3, 1);
+    const s = (small ? 110 : 150) + Math.random() * 150; sp.scale.set(s, s * 0.3, 1);
     clouds.add(sp);
   }
   scene.add(clouds);
@@ -537,10 +537,11 @@ function buildScene(renderer) {
     adapt(dt);
   }
 
-  let acc = 0, frames = 0, settle = 0;
+  let acc = 0, frames = 0, settle = 0, adaptRounds = 0;
   function adapt(dt) {
     acc += dt; frames++;
-    if (frames < 40) return;
+    if (frames < (adaptRounds < 6 ? 20 : 40)) return;
+    adaptRounds++;
     const avg = acc / frames; acc = 0; frames = 0;
     if (settle-- > 0) return;
     let next = dpr;
@@ -551,7 +552,11 @@ function buildScene(renderer) {
 
   // Modo foto (?shot=all): encuadres fijos del gimnasio que se guardan como imágenes de la página.
   const SHOT = new URLSearchParams(location.search).get('shot');
-  if (!SHOT) { frame(); return; }
+  if (!SHOT) {
+    const go = () => frame();
+    if (renderer.compileAsync) renderer.compileAsync(scene, camera).then(go, go); else { renderer.compile(scene, camera); go(); }
+    return;
+  }
   const SHOTS = {
     plan: { w: 1400, h: 1300, fov: 36, pos: [2.9, 4.6, 3.6], look: [0.15, 3.5, 0], inside: 1, glow: 0.35 },
     tecnica: { w: 1600, h: 760, fov: 32, pos: [-2.15, 0.7, -15.9], look: [-1.2, 0.6, -17], inside: 1, glow: 0.18 },
