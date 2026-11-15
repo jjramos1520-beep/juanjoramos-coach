@@ -94,7 +94,7 @@ function updateWords() {
 // Animaciones ligadas al scroll: cada [data-scrub] recibe --s de 0 (su borde superior en data-start × pantalla)
 // a 1 (en data-end × pantalla); el CSS decide qué se mueve con ese valor.
 document.querySelectorAll('[data-hw]').forEach(el => {
-  el.innerHTML = el.textContent.trim().split(/s+/).map((w, i) => `<span class="hw"><span style="--i:${i}">${w}</span></span>`).join(' ');
+  el.innerHTML = el.textContent.trim().split(/\s+/).map((w, i) => `<span class="hw"><span style="--i:${i}">${w}</span></span>`).join(' ');
 });
 document.querySelectorAll('.faq > div').forEach((d, i) => d.style.setProperty('--i', i));
 const scrubs = [...document.querySelectorAll('[data-scrub]')].map(el => ({ el, a: +(el.dataset.start || 1), b: +(el.dataset.end || 0.35), last: -1 }));
