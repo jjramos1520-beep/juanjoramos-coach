@@ -47,7 +47,7 @@ requestAnimationFrame(() => requestAnimationFrame(() => chapters[0].el.classList
 
 let pTarget = 0;
 const readScroll = () => {
-  const total = story.offsetHeight - innerHeight;
+  const total = story.offsetHeight * (6.2 / 7.2);
   pTarget = total > 0 ? clamp(-story.getBoundingClientRect().top / total) : 0;
 };
 let lastActive = 0, lastWeek = -1;
@@ -151,8 +151,10 @@ function canvasTexture(w, h, draw) {
 }
 
 function buildScene(renderer) {
-  const DPR = Math.min(devicePixelRatio, small ? 1.4 : 1.75);
-  renderer.setPixelRatio(DPR);
+  const DPR_MAX = Math.min(devicePixelRatio, small ? 1.1 : 1.35), DPR_MIN = small ? 0.6 : 0.7;
+  let dpr = DPR_MAX;
+  const DPR = DPR_MAX; // tamaño de partículas calculado para la resolución máxima
+  renderer.setPixelRatio(dpr);
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 0.9;
 
@@ -167,8 +169,8 @@ function buildScene(renderer) {
 
   /* ---------- Materiales ---------- */
   const M = {
-    chrome: new THREE.MeshPhysicalMaterial({ color: '#d6e0ff', metalness: 1, roughness: 0.12, clearcoat: 1, clearcoatRoughness: 0.06 }),
-    rubber: new THREE.MeshPhysicalMaterial({ color: '#0d1324', metalness: 0.2, roughness: 0.42, clearcoat: 0.7, clearcoatRoughness: 0.28 }),
+    chrome: new THREE.MeshStandardMaterial({ color: '#d6e0ff', metalness: 1, roughness: 0.14 }),
+    rubber: new THREE.MeshStandardMaterial({ color: '#0d1324', metalness: 0.3, roughness: 0.34 }),
     // Cristal oscuro casi sin reflejo del entorno: si no, los paneles de luz del entorno se ven como cuadrados en las paredes
     glass: new THREE.MeshStandardMaterial({ color: '#0a1430', metalness: 0.5, roughness: 0.4, envMapIntensity: 0 }),
     wall: new THREE.MeshStandardMaterial({ color: '#0a1022', metalness: 0.6, roughness: 0.38 }),
@@ -210,13 +212,13 @@ function buildScene(renderer) {
   });
   const puffs = [puff(7), puff(91), puff(433)];
   const clouds = new THREE.Group();
-  const nClouds = small ? 120 : 230;
+  const nClouds = small ? 36 : 110;
   for (let i = 0; i < nClouds; i++) {
     const m = new THREE.SpriteMaterial({ map: puffs[i % 3], color: new THREE.Color().setHSL(0.62, 0.55, 0.26 + Math.random() * 0.16), transparent: true, opacity: 0.32 + Math.random() * 0.3, depthWrite: false, rotation: Math.random() * 6.28 });
     const sp = new THREE.Sprite(m);
     const a = Math.random() * Math.PI * 2, r = 25 + Math.pow(Math.random(), 0.7) * 520;
     sp.position.set(Math.cos(a) * r, 40 + Math.random() * 18, Math.sin(a) * r - 120);
-    const s = 80 + Math.random() * 120; sp.scale.set(s, s * 0.3, 1);
+    const s = 110 + Math.random() * 140; sp.scale.set(s, s * 0.3, 1);
     clouds.add(sp);
   }
   scene.add(clouds);
@@ -377,8 +379,8 @@ function buildScene(renderer) {
   scene.add(new THREE.HemisphereLight('#6f8fd8', '#03050c', 0.35));
   const moon = new THREE.DirectionalLight('#9fb8ff', 1.2); moon.position.set(-40, 80, -120); scene.add(moon);
   const spot = new THREE.SpotLight('#cfe0ff', 260, 24, 0.55, 0.6, 1.6); spot.position.set(0, H + 2, 0); spot.target.position.set(0, 2.5, 0); gym.add(spot, spot.target);
-  for (const [z, c, i] of [[-8, '#2f6bff', 70], [-20, '#2f6bff', 80], [-34, '#3cf2b4', 60], [-44, '#2f6bff', 90]]) { const l = new THREE.PointLight(c, i, 26, 1.6); l.position.set(0, 9, z); gym.add(l); }
-  const sweep = new THREE.PointLight('#8fb0ff', 40, 9, 1.8); sweep.position.set(0, 2.5, 0); gym.add(sweep);
+  for (const [z, c, i] of [[-14, '#2f6bff', 110], [-38, '#3cf2b4', 90]]) { const l = new THREE.PointLight(c, i, 34, 1.5); l.position.set(0, 9, z); gym.add(l); }
+  
 
   /* Polvo flotando en la sala */
   const nDust = small ? 900 : 1800, dp = new Float32Array(nDust * 3);
@@ -455,13 +457,13 @@ function buildScene(renderer) {
   const camPos = new THREE.Vector3(), camLook = new THREE.Vector3();
   function pathAt(p) {
     let i = 0; while (i < K.length - 2 && p > K[i + 1][0]) i++;
-    const t = smooth(range(p, K[i][0], K[i + 1][0]));
+    const t = range(p, K[i][0], K[i + 1][0]);
     const u = (i + t) / (K.length - 1);
     posCurve.getPoint(u, camPos); lookCurve.getPoint(u, camLook);
   }
 
   /* ---------- Postproceso ---------- */
-  const rt = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, samples: small ? 0 : 4 });
+  const rt = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, samples: 0 });
   const composer = new EffectComposer(renderer, rt);
   composer.addPass(new RenderPass(scene, camera));
   const bloom = new UnrealBloomPass(new THREE.Vector2(1, 1), small ? 0.6 : 0.75, 0.42, 0.78);
@@ -470,11 +472,17 @@ function buildScene(renderer) {
 
   function resize() {
     const w = innerWidth, h = innerHeight;
+    renderer.setPixelRatio(dpr); composer.setPixelRatio(dpr);
     renderer.setSize(w, h, false); composer.setSize(w, h);
-    bloom.setSize(w * 0.5, h * 0.5);
+    bloom.setSize(w * dpr * 0.35, h * dpr * 0.35);
     camera.aspect = w / h; camera.fov = w / h < 0.85 ? 62 : 45; camera.updateProjectionMatrix();
   }
-  addEventListener('resize', resize); resize();
+  let lastW = 0, lastH = 0;
+  addEventListener('resize', () => {
+    if (innerWidth === lastW && Math.abs(innerHeight - lastH) < 160) return;
+    lastW = innerWidth; lastH = innerHeight; resize();
+  });
+  lastW = innerWidth; lastH = innerHeight; resize();
 
   /* ---------- Bucle ---------- */
   const mouse = new THREE.Vector2(), mouseS = new THREE.Vector2();
@@ -487,7 +495,7 @@ function buildScene(renderer) {
   function frame() {
     requestAnimationFrame(frame);
     const dt = Math.min(clock.getDelta(), 0.05);
-    p = reduce ? pTarget : p + (pTarget - p) * (1 - Math.exp(-dt * 4.2));
+    p = reduce ? pTarget : p + (pTarget - p) * (1 - Math.exp(-dt * 2.6));
     const week = updateText(p);
     if (!visible && !first) return;
     if (!reduce) t += dt;
@@ -516,7 +524,6 @@ function buildScene(renderer) {
     rings.forEach(({ pivot, s }) => { pivot.rotation.x = Math.sin(t * 0.9 + s) * 0.07; pivot.rotation.z = Math.sin(t * 0.7 + s * 2) * 0.03; });
     portal.rotation.z = t * 0.1; portalMint.rotation.z = -t * 0.18;
     dust.rotation.y = Math.sin(t * 0.05) * 0.02; dust.position.y = Math.sin(t * 0.3) * 0.15;
-    sweep.position.set(Math.sin(t * 0.8) * 3, 2.4, lerp(0, -28, range(p, 0.46, 0.66)));
 
     // Semanas: se enciende una columna por cada semana del capítulo 2
     const lit = p >= 0.46 ? week : 0;
@@ -527,6 +534,19 @@ function buildScene(renderer) {
 
     composer.render();
     if (first) { first = false; stage.classList.add('is-ready'); }
+    adapt(dt);
+  }
+
+  let acc = 0, frames = 0, settle = 0;
+  function adapt(dt) {
+    acc += dt; frames++;
+    if (frames < 40) return;
+    const avg = acc / frames; acc = 0; frames = 0;
+    if (settle-- > 0) return;
+    let next = dpr;
+    if (avg > 1 / 48 && dpr > DPR_MIN) next = Math.max(DPR_MIN, dpr - 0.15);
+    else if (avg < 1 / 58 && dpr < DPR_MAX) next = Math.min(DPR_MAX, dpr + 0.05);
+    if (next !== dpr) { dpr = next; resize(); settle = 2; }
   }
 
   // Modo foto (?shot=all): encuadres fijos del gimnasio que se guardan como imágenes de la página.
