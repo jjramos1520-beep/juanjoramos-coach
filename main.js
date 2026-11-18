@@ -151,7 +151,7 @@ function canvasTexture(w, h, draw) {
 }
 
 function buildScene(renderer) {
-  const DPR_MAX = Math.min(devicePixelRatio, small ? 1.1 : 1.35), DPR_MIN = small ? 0.6 : 0.7;
+  const DPR_MAX = Math.min(devicePixelRatio, small ? 1 : 1.25), DPR_MIN = small ? 0.55 : 0.65;
   let dpr = Math.min(DPR_MAX, 1);
   const DPR = DPR_MAX; // tamaño de partículas calculado para la resolución máxima
   renderer.setPixelRatio(dpr);
@@ -212,7 +212,7 @@ function buildScene(renderer) {
   });
   const puffs = [puff(7), puff(91), puff(433)];
   const clouds = new THREE.Group();
-  const nClouds = small ? 36 : 56;
+  const nClouds = small ? 18 : 28;
   for (let i = 0; i < nClouds; i++) {
     const m = new THREE.SpriteMaterial({ map: puffs[i % 3], color: new THREE.Color().setHSL(0.62, 0.55, 0.26 + Math.random() * 0.16), transparent: true, opacity: 0.32 + Math.random() * 0.3, depthWrite: false, rotation: Math.random() * 6.28 });
     const sp = new THREE.Sprite(m);
@@ -227,6 +227,7 @@ function buildScene(renderer) {
   let seed = 20261118;
   const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
   const tmp = new THREE.Object3D();
+  const city = new THREE.Group(); scene.add(city); // se oculta al entrar en el gimnasio
   // Gimnasio casi cuadrado (34 × 34 m) en el centro de una manzana
   const W = 34, Z0 = 13, Z1 = -21, H = 9, L = Z0 - Z1, ZC = (Z0 + Z1) / 2;
   // Calles cada 48 m: en x = 24 + 48k y z = 20 + 48k, así la manzana central es la del gimnasio
@@ -254,7 +255,7 @@ function buildScene(renderer) {
   groundTex.wrapS = groundTex.wrapT = THREE.RepeatWrapping; groundTex.repeat.set(34, 34); groundTex.anisotropy = 8;
   const ground = new THREE.Mesh(new THREE.PlaneGeometry(BLK * 34, BLK * 34), new THREE.MeshStandardMaterial({ map: groundTex, roughness: 0.82, metalness: 0.05 }));
   ground.rotation.x = -Math.PI / 2; ground.position.set(24, -0.02, 20);
-  scene.add(ground);
+  city.add(ground);
 
   // Edificios: tres alturas, cada una con su textura de ventanas (pocas encendidas)
   const winTex = (rows, cols) => canvasTexture(512, 512, (g, w) => {
@@ -272,7 +273,7 @@ function buildScene(renderer) {
     const t = winTex(floors, cols);
     const side = new THREE.MeshStandardMaterial({ map: t, emissiveMap: t, emissive: '#ffffff', emissiveIntensity: 0.85, roughness: 0.6, metalness: 0.3 });
     const mesh = new THREE.InstancedMesh(new THREE.BoxGeometry(1, 1, 1).translate(0, 0.5, 0), [side, side, roofMat, roofMat, side, side], 1300);
-    mesh.count = 0; scene.add(mesh);
+    mesh.count = 0; city.add(mesh);
     return { mesh, h: floors * 3.4 };
   });
   const R = 8;
@@ -304,7 +305,7 @@ function buildScene(renderer) {
       poles.setMatrixAt(np, tmp.matrix); lamps.setMatrixAt(np++, tmp.matrix);
     }
   }
-  poles.count = lamps.count = np; scene.add(poles, lamps);
+  poles.count = lamps.count = np; city.add(poles, lamps);
 
   // Árboles en la plaza de enfrente
   const trunks = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.12, 0.18, 2.6, 8).translate(0, 1.3, 0), new THREE.MeshStandardMaterial({ color: '#2a2018', roughness: 0.9 }), 26);
@@ -314,7 +315,7 @@ function buildScene(renderer) {
     tmp.position.set(s * (6 + rnd() * 11), 0, 28 + rnd() * 32); tmp.rotation.set(0, rnd() * 6, 0); tmp.scale.setScalar(0.8 + rnd() * 0.5); tmp.updateMatrix();
     trunks.setMatrixAt(i, tmp.matrix); crowns.setMatrixAt(i, tmp.matrix);
   }
-  scene.add(trunks, crowns);
+  city.add(trunks, crowns);
 
   /* ---------- Materiales del gimnasio ---------- */
   const tiled = (w, h, draw) => { const t = canvasTexture(w, h, draw); t.wrapS = t.wrapT = THREE.RepeatWrapping; return t; };
@@ -670,7 +671,8 @@ function buildScene(renderer) {
   dbRack(station(-3.2, -20.2), 5);
   barbell(station(-11.8, -15.8, 0.4), 0.225, 0, 2.2, 3);
   for (let x = -12; x <= 12; x += 6) for (let z = 9; z >= -19; z -= 5.6) lamp(station(x, z));
-  for (const [mat, list] of parts) gym.add(new THREE.Mesh(mergeGeometries(list), mat));
+  const interior = new THREE.Group(); gym.add(interior); // se oculta mientras se está en el cielo
+  for (const [mat, list] of parts) interior.add(new THREE.Mesh(mergeGeometries(list), mat));
 
   /* Anillas de gimnasia */
   const rings = [];
@@ -690,7 +692,7 @@ function buildScene(renderer) {
   /* Luces */
   scene.add(new THREE.HemisphereLight('#6f8fd8', '#03050c', 0.35));
   const moon = new THREE.DirectionalLight('#9fb8ff', 1.2); moon.position.set(-40, 80, -120); scene.add(moon);
-  for (const [x, z] of [[-9, 6], [9, 6], [-8, -6], [8, -8], [-9, -16], [7, -17]]) { const l = new THREE.PointLight('#e8efff', 70, 22, 1.5); l.position.set(x, 6, z); gym.add(l); }
+  for (const [x, z] of [[-4, 3], [4, -11]]) { const l = new THREE.PointLight('#e8efff', 170, 38, 1.5); l.position.set(x, 6, z); gym.add(l); }
   const entry = new THREE.PointLight('#ffd9b0', 50, 14, 1.5); entry.position.set(0, 4.3, Z0 + 2.2); gym.add(entry);
   
 
@@ -828,6 +830,10 @@ function buildScene(renderer) {
     // Niebla: fina fuera, densa dentro
     scene.fog.density = lerp(0.0016, 0.012, inside);
     clouds.visible = p < 0.3;
+    city.visible = p < 0.38;
+    interior.visible = p > 0.17;
+    dust.visible = p > 0.3;
+    scene.environmentIntensity = lerp(0.45, 0.85, inside);
     sky.visible = p < 0.37;
     // La puerta se abre mientras te acercas
     const open = smooth(range(p, 0.27, 0.335));
@@ -866,6 +872,8 @@ function buildScene(renderer) {
   const SHOT = new URLSearchParams(location.search).get('shot');
   if (!SHOT) {
     const go = () => tick();
+    // Subir todas las texturas a la GPU antes de empezar: si no, cada una da un tirón la primera vez que aparece
+    scene.traverse(o => [].concat(o.material || []).forEach(m => ['map', 'emissiveMap'].forEach(k => m[k] && renderer.initTexture(m[k]))));
     if (renderer.compileAsync) renderer.compileAsync(scene, camera).then(go, go); else { renderer.compile(scene, camera); go(); }
     return;
   }
